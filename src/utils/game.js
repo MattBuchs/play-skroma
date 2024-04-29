@@ -232,6 +232,7 @@ export const moveQueen = (newSquares, i, player) => {
         let y = Math.floor(i / boardSize);
         let step = 1;
 
+        // eslint-disable-next-line no-constant-condition
         while (true) {
             const nextX = x + step * direction.x;
             const nextY = y + step * direction.y;

@@ -49,7 +49,7 @@ function Checkers({ setDisplay }) {
                 }
 
                 if (newSquares[i].isQueen) {
-                    return placeHoldersQueen(
+                    placeHoldersQueen(
                         newSquares,
                         i,
                         player,
@@ -57,6 +57,7 @@ function Checkers({ setDisplay }) {
                         true,
                         false
                     );
+                    return setSquares(newSquares);
                 }
 
                 placeHoldersPawn(

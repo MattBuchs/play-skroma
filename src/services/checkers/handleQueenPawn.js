@@ -1,3 +1,10 @@
+export let directions = [
+    { x: -1, y: -1, ennemyPiece: false, position: null }, // Haut gauche
+    { x: 1, y: -1, ennemyPiece: false, position: null }, // Haut droit
+    { x: -1, y: 1, ennemyPiece: false, position: null }, // Bas gauche
+    { x: 1, y: 1, ennemyPiece: false, position: null }, // Bas droit
+];
+
 export const placeHoldersQueen = (
     newSquares,
     i,
@@ -8,12 +15,6 @@ export const placeHoldersQueen = (
 ) => {
     const pieceTemp = player === 1 ? "/wp-pawn.svg" : "/bp-pawn.svg";
     let piece = player === 1 ? "/w-pawn.svg" : "/b-pawn.svg";
-    const directions = [
-        { x: -1, y: -1, ennemyPiece: false }, // Haut gauche
-        { x: 1, y: -1, ennemyPiece: false }, // Haut droit
-        { x: -1, y: 1, ennemyPiece: false }, // Bas gauche
-        { x: 1, y: 1, ennemyPiece: false }, // Bas droit
-    ];
     const boardSize = Math.sqrt(newSquares.length); // Assuming a square board
     const x = i % boardSize;
     const y = Math.floor(i / boardSize);
@@ -31,7 +32,6 @@ export const placeHoldersQueen = (
         player,
         isOpponent
     );
-    console.log(checkEnnemyPiece);
 
     if (checkEnnemyPiece.length > 0) {
         // Movement logic based on initial check
@@ -59,7 +59,6 @@ export const placeHoldersQueen = (
                 const jumpIndex = jumpY * boardSize + jumpX;
 
                 if (newSquares[nextIndex].img !== null && !isJumping) {
-                    console.log(newSquares[nextIndex], piece);
                     if (newSquares[nextIndex].img.includes(piece)) {
                         // Check if the space after the enemy is empty and valid for a jump
                         if (
@@ -148,17 +147,17 @@ export const placeHoldersQueen = (
 };
 
 export const checkEnemyWithQueen = (newSquares, i, player, isOpponent) => {
-    console.log(i);
-    const directions = [
-        { x: -1, y: -1, ennemyPiece: false, posistion: null }, // Haut gauche
-        { x: 1, y: -1, ennemyPiece: false, posistion: null }, // Haut droit
-        { x: -1, y: 1, ennemyPiece: false, posistion: null }, // Bas gauche
-        { x: 1, y: 1, ennemyPiece: false, posistion: null }, // Bas droit
-    ];
     const boardSize = Math.sqrt(newSquares.length); // Assuming a square board
     const x = i % boardSize;
     const y = Math.floor(i / boardSize);
     let opponentPiece = player === 1 ? "/b-pawn.svg" : "/w-pawn.svg";
+
+    directions = [
+        { x: -1, y: -1, ennemyPiece: false, position: null }, // Haut gauche
+        { x: 1, y: -1, ennemyPiece: false, position: null }, // Haut droit
+        { x: -1, y: 1, ennemyPiece: false, position: null }, // Bas gauche
+        { x: 1, y: 1, ennemyPiece: false, position: null }, // Bas droit
+    ];
 
     if (isOpponent)
         opponentPiece = player === 1 ? "/w-pawn.svg" : "/b-pawn.svg";
@@ -193,9 +192,11 @@ export const checkEnemyWithQueen = (newSquares, i, player, isOpponent) => {
                         jumpY < boardSize &&
                         newSquares[jumpIndex].img === null
                     ) {
-                        direction.ennemyPiece = true; // Mark direction as having an enemy piece with space to jump
-                        direction.posistion = nextIndex;
-                        break;
+                        if (direction.ennemyPiece === false) {
+                            direction.ennemyPiece = true; // Mark direction as having an enemy piece with space to jump
+                            direction.position = nextIndex;
+                            break;
+                        }
                     }
                 }
                 break;
@@ -207,6 +208,8 @@ export const checkEnemyWithQueen = (newSquares, i, player, isOpponent) => {
     const checkEnnemyPiece = directions.filter(
         (direction) => direction.ennemyPiece
     );
+
+    console.log("DIRECTIONS", directions);
 
     return checkEnnemyPiece;
 };

@@ -7,7 +7,7 @@ export const initializeSquares = () => {
             const isBlackSquare = (row + col) % 2 !== 0;
             const color = isBlackSquare ? "bg-[#86421d]" : "bg-[#d2a973]";
             if (isBlackSquare) {
-                if (row < 1)
+                if (row < 4)
                     return {
                         id: index,
                         img: "/b-pawn.svg",

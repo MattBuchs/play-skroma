@@ -1,4 +1,8 @@
-import { checkEnemyWithQueen, placeHoldersQueen } from "./handleQueenPawn.js";
+import {
+    checkEnemyWithQueen,
+    placeHoldersQueen,
+    directions,
+} from "./handleQueenPawn.js";
 import { checkReplay } from "./utils";
 
 export const placeHoldersPawn = (
@@ -95,13 +99,6 @@ export const MovePawn = (
     resultObligation,
     isQueen
 ) => {
-    const boardSize = Math.sqrt(newSquares.length); // Assuming a square board
-    const directions = [
-        { x: -1, y: -1 }, // Haut gauche
-        { x: 1, y: -1 }, // Haut droit
-        { x: -1, y: 1 }, // Bas gauche
-        { x: 1, y: 1 }, // Bas droit
-    ];
     let piece = player === 1 ? "/w-pawn.svg" : "/b-pawn.svg";
     piece = isQueen ? piece.slice(0, 2) + "Q" + piece.slice(2) : piece;
     const opponentPiece = player === 1 ? "/b-pawn.svg" : "/w-pawn.svg";
@@ -117,49 +114,19 @@ export const MovePawn = (
 
     if (newSquares[i].color === colorBlue) {
         newSquares[i].color = colorStandard;
-        const x = i % boardSize;
-        const y = Math.floor(i / boardSize);
 
-        let calc;
         if (!isQueen) {
             const pawn =
                 player === 1
                     ? (newSquares[pawnChoose].id - newSquares[i].id) / 2
                     : (newSquares[i].id - newSquares[pawnChoose].id) / 2;
 
-            calc = player === 1 ? pawnChoose - pawn : pawnChoose + pawn;
+            const calc = player === 1 ? pawnChoose - pawn : pawnChoose + pawn;
             newSquares[calc].img = null;
         } else {
             directions.forEach((direction) => {
-                const dx = direction.x;
-                const dy = direction.y;
-                let step = 1;
-                let enemyFound = false;
-                let nextIndex = i + dx + dy * boardSize;
-
-                while (
-                    !enemyFound &&
-                    nextIndex >= 0 &&
-                    nextIndex < newSquares.length &&
-                    Math.floor(nextIndex / boardSize) === y + step * dy &&
-                    nextIndex % boardSize === x + step * dx
-                ) {
-                    if (
-                        newSquares[nextIndex].img &&
-                        newSquares[nextIndex].img.includes(opponentPiece)
-                    ) {
-                        const jumpIndex = nextIndex + dx + dy * boardSize;
-                        if (
-                            jumpIndex >= 0 &&
-                            jumpIndex < newSquares.length &&
-                            newSquares[jumpIndex].img === null
-                        ) {
-                            newSquares[nextIndex].img = null; // Remove the jumped enemy piece
-                            enemyFound = true;
-                        }
-                    }
-                    step++;
-                    nextIndex = i + step * dx + step * dy * boardSize;
+                if (direction.ennemyPiece) {
+                    newSquares[direction.position].img = null;
                 }
             });
         }
@@ -175,8 +142,21 @@ export const MovePawn = (
     });
 
     if (resultObligation) {
-        const isReplay = checkReplay(newSquares, i, setResultObligation);
-        if (isReplay) return isReplay;
+        let isReplay;
+        if (isQueen) {
+            isReplay = checkEnemyWithQueen(newSquares, i, player, false);
+
+            console.log("REPLAY", isReplay);
+            if (isReplay.length > 0) {
+                newSquares[i].color = colorBlueHighlight;
+                setResultObligation(true);
+                placeHoldersQueen(newSquares, i, player, true, false, false);
+            }
+        } else {
+            isReplay = checkReplay(newSquares, i, setResultObligation);
+        }
+
+        if (isReplay && isReplay.length > 0) return isReplay;
     }
 
     if (

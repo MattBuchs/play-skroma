@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import Board from "../components/Checkers/Board.jsx";
-import { initializeSquares } from "../utils/initialization.js";
+import { placeHoldersPawn, MovePawn } from "../services/checkers/handlePawn.js";
+import { placeHoldersQueen } from "../services/checkers/handleQueenPawn.js";
 import {
+    initializeSquares,
     clearTemporaryMoves,
-    shifting,
-    shiftingTemp,
-    moveQueen,
-} from "../utils/game.js";
-import { checkWinner } from "../utils/winner.js";
+    checkWinner,
+} from "../services/checkers/utils.js";
 
 function Checkers({ setDisplay }) {
     const [pawnChoose, setPawnChoose] = useState(null);
@@ -50,21 +49,28 @@ function Checkers({ setDisplay }) {
                 }
 
                 if (newSquares[i].isQueen) {
-                    return moveQueen(newSquares, i, player);
+                    return placeHoldersQueen(
+                        newSquares,
+                        i,
+                        player,
+                        resultObligation,
+                        true,
+                        false
+                    );
                 }
 
-                shifting(
+                placeHoldersPawn(
                     newSquares,
                     i,
                     resultObligation,
                     tempPawnType,
                     direction,
-                    newSquares[i].isQueen
+                    opponentPawnType
                 );
             }
 
             if (newSquares[i].img === tempPawnType) {
-                const isReplay = shiftingTemp(
+                const isReplay = MovePawn(
                     newSquares,
                     i,
                     pawnChoose,

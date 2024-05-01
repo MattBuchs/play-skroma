@@ -19,7 +19,7 @@ export default function Nav({ display, setDisplay }) {
 
         // Nettoyage de l'écouteur d'événement lors du démontage du composant
         return () => window.removeEventListener("resize", handleResize);
-    }, []);
+    }, [setDisplay, size]);
 
     return (
         <header className="bg-gray-200 select-none">
@@ -38,37 +38,36 @@ export default function Nav({ display, setDisplay }) {
                     <Link to={"/"}>PlaySkroma</Link>
                 </h1>
 
-                {display ||
-                    (size.width <= 640 && (
-                        <nav onClick={(e) => e.stopPropagation()}>
-                            <ul className="flex text-lg">
-                                <li>
-                                    <NavLink
-                                        to={"/"}
-                                        className={({ isActive }) =>
-                                            isActive
-                                                ? "underline underline-offset-4"
-                                                : ""
-                                        }
-                                    >
-                                        Home
-                                    </NavLink>
-                                </li>
-                                <li className="ml-4">
-                                    <NavLink
-                                        to={"/checkers"}
-                                        className={({ isActive }) =>
-                                            isActive
-                                                ? "underline underline-offset-4"
-                                                : ""
-                                        }
-                                    >
-                                        Checkers
-                                    </NavLink>
-                                </li>
-                            </ul>
-                        </nav>
-                    ))}
+                {(display || size.width <= 640) && (
+                    <nav onClick={(e) => e.stopPropagation()}>
+                        <ul className="flex text-lg">
+                            <li>
+                                <NavLink
+                                    to={"/"}
+                                    className={({ isActive }) =>
+                                        isActive
+                                            ? "underline underline-offset-4"
+                                            : ""
+                                    }
+                                >
+                                    Home
+                                </NavLink>
+                            </li>
+                            <li className="ml-4">
+                                <NavLink
+                                    to={"/checkers"}
+                                    className={({ isActive }) =>
+                                        isActive
+                                            ? "underline underline-offset-4"
+                                            : ""
+                                    }
+                                >
+                                    Checkers
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </nav>
+                )}
             </div>
         </header>
     );

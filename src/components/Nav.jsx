@@ -24,22 +24,27 @@ export default function Nav({ display, setDisplay }) {
     return (
         <header className="bg-gray-200 select-none">
             <div
-                className={`flex justify-between items-center text-white px-6 h-14 ${
+                className={`flex justify-between items-center text-white px-2 h-[74px] ${
                     display && size.width > 640
                         ? "sm:w-full cursor-pointer"
-                        : "sm:w-48"
-                } w-full border-b shadow bg-indigo-900 sm:after:absolute sm:after:w-0 sm:after:h-0 sm:after:left-48 sm:after:border-t-[27px] sm:after:border-b-[28px] sm:after:border-l-[40px] sm:after:border-l-indigo-900 sm:after:border-t-transparent sm:after:border-b-transparent transition`}
+                        : "sm:w-56"
+                } w-full border-b shadow bg-indigo-900 sm:after:absolute sm:after:w-0 sm:after:h-0 sm:after:left-[224px] sm:after:border-t-[37px] sm:after:border-b-[36px] sm:after:border-l-[46px] sm:after:border-l-indigo-900 sm:after:border-t-transparent sm:after:border-b-transparent transition`}
                 onClick={() => size.width > 640 && setDisplay(!display)}
             >
-                <h1
-                    className="text-xl mb-1"
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <Link to={"/"}>PlaySkroma</Link>
-                </h1>
+                <div className="flex items-center">
+                    {size.width > 400 && (
+                        <img src="/logo.png" alt="Logo" className="w-16 h-16" />
+                    )}
+                    <h1
+                        className="text-xl mb-1 ml-2"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <Link to={"/"}>PlaySkroma</Link>
+                    </h1>
+                </div>
 
                 {(display || size.width <= 640) && (
-                    <nav onClick={(e) => e.stopPropagation()}>
+                    <nav onClick={(e) => e.stopPropagation()} className="mr-4">
                         <ul className="flex text-lg">
                             <li>
                                 <NavLink

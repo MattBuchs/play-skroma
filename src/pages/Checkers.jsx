@@ -19,6 +19,10 @@ function Checkers({ setDisplay }) {
         setDisplay(false);
     }, [setDisplay]);
 
+    useEffect(() => {
+        document.title = "PlaySkroma | Checkers";
+    }, []);
+
     const handleClick = (i) => {
         const newSquares = squares.slice();
 

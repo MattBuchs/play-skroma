@@ -10,7 +10,7 @@ export default function Board({ squares, onClick }) {
     );
 
     return (
-        <div className="grid grid-cols-10 gap-0">
+        <div className="grid grid-cols-10 gap-0 select-none">
             {squares.map((_, i) => renderSquare(i))}
         </div>
     );

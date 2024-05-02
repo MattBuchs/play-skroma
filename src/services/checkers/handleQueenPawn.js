@@ -15,7 +15,7 @@ export const placeHoldersQueen = (
     isOpponent
 ) => {
     const pieceTemp = player === 1 ? "/wp-pawn.svg" : "/bp-pawn.svg";
-    let piece = player === 1 ? "/w-pawn.svg" : "/b-pawn.svg";
+    let piece = player === 1 ? "/w-pawn.png" : "/b-pawn.png";
     const boardSize = Math.sqrt(newSquares.length); // Assuming a square board
     const x = i % boardSize;
     const y = Math.floor(i / boardSize);
@@ -23,7 +23,7 @@ export const placeHoldersQueen = (
 
     if (isClicked) {
         newSquares[i].selected = true;
-        piece = player === 1 ? "/b-pawn.svg" : "/w-pawn.svg";
+        piece = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
     }
 
     // First check for enemies with an empty space behind them
@@ -151,7 +151,7 @@ export const checkEnemyWithQueen = (newSquares, i, player, isOpponent) => {
     const boardSize = Math.sqrt(newSquares.length); // Assuming a square board
     const x = i % boardSize;
     const y = Math.floor(i / boardSize);
-    let opponentPiece = player === 1 ? "/b-pawn.svg" : "/w-pawn.svg";
+    let opponentPiece = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
 
     directions = [
         { x: -1, y: -1, ennemyPiece: false, position: null }, // Haut gauche
@@ -161,7 +161,7 @@ export const checkEnemyWithQueen = (newSquares, i, player, isOpponent) => {
     ];
 
     if (isOpponent)
-        opponentPiece = player === 1 ? "/w-pawn.svg" : "/b-pawn.svg";
+        opponentPiece = player === 1 ? "/w-pawn.png" : "/b-pawn.png";
 
     directions.forEach((direction) => {
         let step = 1;

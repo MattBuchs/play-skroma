@@ -25,9 +25,9 @@ export default function Nav({ display, setDisplay }) {
         <header className="bg-gray-200 select-none">
             <div
                 className={`flex justify-between items-center text-white px-2 h-[74px] ${
-                    display && size.width > 640
-                        ? "sm:w-full cursor-pointer"
-                        : "sm:w-56"
+                    display && size.width > 640 ? "sm:w-full" : "sm:w-56"
+                } ${
+                    size.width > 640 ? "cursor-pointer" : ""
                 } w-full border-b shadow bg-indigo-900 sm:after:absolute sm:after:w-0 sm:after:h-0 sm:after:left-[224px] sm:after:border-t-[37px] sm:after:border-b-[36px] sm:after:border-l-[46px] sm:after:border-l-indigo-900 sm:after:border-t-transparent sm:after:border-b-transparent transition`}
                 onClick={() => size.width > 640 && setDisplay(!display)}
             >

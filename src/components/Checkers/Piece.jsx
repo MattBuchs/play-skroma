@@ -7,9 +7,11 @@ export default function Piece({ onClick, value }) {
         >
             <img
                 src={value.img}
-                alt="piece"
+                alt=""
                 className={`w-4/5 h-4/5 rounded-full
-                ${value.selected ? "border-4 border-yellow-500" : ""}`}
+                ${
+                    value.selected ? "border sm:border-4 border-yellow-500" : ""
+                }`}
             />
         </button>
     );

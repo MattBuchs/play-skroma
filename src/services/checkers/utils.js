@@ -10,7 +10,7 @@ export const initializeSquares = () => {
                 if (row < 4)
                     return {
                         id: index,
-                        img: "/b-pawn.svg",
+                        img: "/b-pawn.png",
                         color,
                         selected: false,
                         isQueen: false,
@@ -18,7 +18,7 @@ export const initializeSquares = () => {
                 else if (row > 5)
                     return {
                         id: index,
-                        img: "/w-pawn.svg",
+                        img: "/w-pawn.png",
                         color,
                         selected: false,
                         isQueen: false,
@@ -67,7 +67,7 @@ export const checkReplay = (newSquares, i, setResultObligation) => {
 
     let isReplay = false;
     const pawn = newSquares[i].img;
-    const enemyPiece = pawn === "/w-pawn.svg" ? "/b-pawn.svg" : "/w-pawn.svg";
+    const enemyPiece = pawn === "/w-pawn.png" ? "/b-pawn.png" : "/w-pawn.png";
     const offsets = [-18, -22, 18, 22];
 
     for (let offset of offsets) {

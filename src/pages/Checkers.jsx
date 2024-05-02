@@ -28,13 +28,13 @@ function Checkers({ setDisplay }) {
 
         if (newSquares[i].img && !winner) {
             const isPlayerOne = player === 1;
-            const pawnType = isPlayerOne ? "/w-pawn.svg" : "/b-pawn.svg";
+            const pawnType = isPlayerOne ? "/w-pawn.png" : "/b-pawn.png";
             const tempPawnType = isPlayerOne ? "/wp-pawn.svg" : "/bp-pawn.svg";
             const pawnQueenType = isPlayerOne ? "/wQ-pawn.svg" : "/bQ-pawn.svg";
             const direction = isPlayerOne ? "backward" : "forward";
             const opponentPawnType = isPlayerOne
-                ? "/b-pawn.svg"
-                : "/w-pawn.svg";
+                ? "/b-pawn.png"
+                : "/w-pawn.png";
 
             if (newSquares[i].selected) {
                 clearTemporaryMoves(newSquares, tempPawnType);

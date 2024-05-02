@@ -99,9 +99,11 @@ export const MovePawn = (
     resultObligation,
     isQueen
 ) => {
-    let piece = player === 1 ? "/w-pawn.svg" : "/b-pawn.svg";
-    piece = isQueen ? piece.slice(0, 2) + "Q" + piece.slice(2) : piece;
-    const opponentPiece = player === 1 ? "/b-pawn.svg" : "/w-pawn.svg";
+    let piece = player === 1 ? "/w-pawn.png" : "/b-pawn.png";
+    piece = isQueen
+        ? piece.slice(0, 2) + "Q" + piece.slice(2, 8) + "svg"
+        : piece;
+    const opponentPiece = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
     const queenPiece = player === 1 ? "/bQ-pawn.svg" : "/wQ-pawn.svg";
     const tempPiece = player === 1 ? "/wp-pawn.svg" : "/bp-pawn.svg";
     const colorBlue = "bg-blue-400";
@@ -162,7 +164,7 @@ export const MovePawn = (
     }
 
     if (
-        newSquares[i].img === "/w-pawn.svg" &&
+        newSquares[i].img === "/w-pawn.png" &&
         newSquares[i].id < 10 &&
         newSquares[i].id > 0
     ) {
@@ -170,7 +172,7 @@ export const MovePawn = (
     }
 
     if (
-        newSquares[i].img === "/b-pawn.svg" &&
+        newSquares[i].img === "/b-pawn.png" &&
         newSquares[i].id < 100 &&
         newSquares[i].id > 89
     ) {

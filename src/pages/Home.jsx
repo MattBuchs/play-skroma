@@ -12,7 +12,7 @@ export default function Home({ setDisplay }) {
     return (
         <div className="pt-14 h-full w-full flex flex-col items-center">
             <h2 className="text-2xl text-center mt-6">
-                Bienvenue sur PlaySkroma !
+                Welcome to PlaySkroma !
             </h2>
             <img
                 src="/logo.png"

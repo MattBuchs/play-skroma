@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 export let directions = [
     { x: -1, y: -1, ennemyPiece: false, position: null }, // Haut gauche
     { x: 1, y: -1, ennemyPiece: false, position: null }, // Haut droit
@@ -208,8 +209,6 @@ export const checkEnemyWithQueen = (newSquares, i, player, isOpponent) => {
     const checkEnnemyPiece = directions.filter(
         (direction) => direction.ennemyPiece
     );
-
-    console.log("DIRECTIONS", directions);
 
     return checkEnnemyPiece;
 };

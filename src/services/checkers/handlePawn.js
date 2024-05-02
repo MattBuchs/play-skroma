@@ -146,17 +146,19 @@ export const MovePawn = (
         if (isQueen) {
             isReplay = checkEnemyWithQueen(newSquares, i, player, false);
 
-            console.log("REPLAY", isReplay);
             if (isReplay.length > 0) {
+                isReplay = true;
                 newSquares[i].color = colorBlueHighlight;
                 setResultObligation(true);
                 placeHoldersQueen(newSquares, i, player, true, false, false);
+            } else {
+                isReplay = false;
             }
         } else {
             isReplay = checkReplay(newSquares, i, setResultObligation);
         }
 
-        if (isReplay && isReplay.length > 0) return isReplay;
+        if (isReplay) return isReplay;
     }
 
     if (

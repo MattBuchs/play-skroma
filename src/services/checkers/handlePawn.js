@@ -155,7 +155,11 @@ export const MovePawn = (
                 isReplay = true;
                 newSquares[i].color = colorBlueHighlight;
                 setResultObligation(true);
-                placeHoldersQueen(newSquares, i, player, true, false, false);
+
+                let newPlayer;
+                player === 1 ? (newPlayer = 2) : (newPlayer = 1);
+
+                placeHoldersQueen(newSquares, i, newPlayer, true, false, true);
             } else {
                 isReplay = false;
             }

@@ -74,12 +74,14 @@ export const placeHoldersQueen = (
                             jumpY < boardSize &&
                             newSquares[jumpIndex].img === null
                         ) {
-                            if (isClicked)
-                                newSquares[jumpIndex].img = pieceTemp; // Mark this as a valid move
-                            newSquares[jumpIndex].color = color;
-                            isJumping = true; // The queen is now jumping
-                            step++; // Move to the next step in this direction
-                            continue;
+                            if (direction.ennemyPiece) {
+                                if (isClicked)
+                                    newSquares[jumpIndex].img = pieceTemp; // Mark this as a valid move
+                                newSquares[jumpIndex].color = color;
+                                isJumping = true; // The queen is now jumping
+                                step++; // Move to the next step in this direction
+                                continue;
+                            }
                         }
                     }
                     break; // Stop if an enemy is encountered and no jump is possible

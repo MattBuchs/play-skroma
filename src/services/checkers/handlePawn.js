@@ -33,8 +33,6 @@ export const placeHoldersPawn = (
     const color = !resultObligation ? "bg-[#86421d]" : "bg-blue-400";
 
     if (resultObligation) {
-        console.log(shiftIndex2bis);
-        console.log(newSquares[shiftIndex2bis].img, opponentQueenType);
         if (
             newSquares[shiftIndex1] &&
             newSquares[shiftIndex1].img === null &&
@@ -230,15 +228,10 @@ export const MovePawn = (
             setResultObligation(true);
         }
 
-        if (el.img === queenPiece) {
-            console.log(checkEnemyWithQueen(newSquares, el.id, player, false));
-        }
-
         if (
             el.img === queenPiece &&
             checkEnemyWithQueen(newSquares, el.id, player, true).length > 0
         ) {
-            console.log("WIW");
             el.color = colorBlueHighlight;
             setResultObligation(true);
             placeHoldersQueen(newSquares, el.id, player, true, false, true);

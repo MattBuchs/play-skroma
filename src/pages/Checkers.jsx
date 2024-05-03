@@ -51,11 +51,11 @@ function Checkers({ setDisplay }) {
                 setPawnChoose(newSquares[i].id);
                 clearTemporaryMoves(newSquares, tempPawnType);
 
-                if (newSquares[i].img === pawnQueenType) {
-                    newSquares[i].isQueen = true;
-                }
+                // if (newSquares[i].img === pawnQueenType) {
+                //     newSquares[i].isQueen = true;
+                // }
 
-                if (newSquares[i].isQueen) {
+                if (newSquares[i].img === pawnQueenType) {
                     placeHoldersQueen(
                         newSquares,
                         i,
@@ -76,6 +76,8 @@ function Checkers({ setDisplay }) {
                     opponentPawnType,
                     opponentQueenType
                 );
+
+                return setSquares(newSquares);
             }
 
             if (newSquares[i].img === tempPawnType) {
@@ -86,7 +88,7 @@ function Checkers({ setDisplay }) {
                     player,
                     setResultObligation,
                     resultObligation,
-                    newSquares[pawnChoose].isQueen
+                    newSquares[pawnChoose].img === pawnQueenType
                 );
 
                 if (!isReplay) {

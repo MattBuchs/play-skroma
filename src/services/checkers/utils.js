@@ -7,21 +7,19 @@ export const initializeSquares = () => {
             const isBlackSquare = (row + col) % 2 !== 0;
             const color = isBlackSquare ? "bg-[#86421d]" : "bg-[#d2a973]";
             if (isBlackSquare) {
-                if (row < 1)
+                if (row < 4)
                     return {
                         id: index,
                         img: "/b-pawn.png",
                         color,
                         selected: false,
-                        isQueen: false,
                     };
-                else if (row > 8)
+                else if (row > 5)
                     return {
                         id: index,
                         img: "/w-pawn.png",
                         color,
                         selected: false,
-                        isQueen: false,
                     };
             }
             return {
@@ -29,7 +27,6 @@ export const initializeSquares = () => {
                 img: null,
                 color,
                 selected: false,
-                isQueen: false,
             };
         });
 };

@@ -36,8 +36,6 @@ export const placeHoldersQueen = (
         isOpponent
     );
 
-    console.log(checkEnnemyPiece);
-
     if (checkEnnemyPiece.length > 0) {
         // Movement logic based on initial check
         directions.forEach((direction) => {
@@ -68,7 +66,6 @@ export const placeHoldersQueen = (
                         newSquares[nextIndex].img.includes(piece) ||
                         newSquares[nextIndex].img.includes(queenPiece)
                     ) {
-                        console.log("WOOOOW", color);
                         // Check if the space after the enemy is empty and valid for a jump
                         if (
                             jumpX >= 0 &&

@@ -30,11 +30,14 @@ function Checkers({ setDisplay }) {
             const isPlayerOne = player === 1;
             const pawnType = isPlayerOne ? "/w-pawn.png" : "/b-pawn.png";
             const tempPawnType = isPlayerOne ? "/wp-pawn.svg" : "/bp-pawn.svg";
-            const pawnQueenType = isPlayerOne ? "/wQ-pawn.svg" : "/bQ-pawn.svg";
+            const pawnQueenType = isPlayerOne ? "/wQ-pawn.png" : "/bQ-pawn.png";
             const direction = isPlayerOne ? "backward" : "forward";
             const opponentPawnType = isPlayerOne
                 ? "/b-pawn.png"
                 : "/w-pawn.png";
+            const opponentQueenType = isPlayerOne
+                ? "/bQ-pawn.png"
+                : "/wQ-pawn.png";
 
             if (newSquares[i].selected) {
                 clearTemporaryMoves(newSquares, tempPawnType);
@@ -70,7 +73,8 @@ function Checkers({ setDisplay }) {
                     resultObligation,
                     tempPawnType,
                     direction,
-                    opponentPawnType
+                    opponentPawnType,
+                    opponentQueenType
                 );
             }
 

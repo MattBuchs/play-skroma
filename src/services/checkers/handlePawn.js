@@ -11,7 +11,8 @@ export const placeHoldersPawn = (
     resultObligation,
     img,
     direction,
-    opponentPawnType
+    opponentPawnType,
+    opponentQueenType
 ) => {
     const shift1 = !resultObligation ? 9 : 18;
     const shift2 = !resultObligation ? 11 : 22;
@@ -32,10 +33,13 @@ export const placeHoldersPawn = (
     const color = !resultObligation ? "bg-[#86421d]" : "bg-blue-400";
 
     if (resultObligation) {
+        console.log(shiftIndex2bis);
+        console.log(newSquares[shiftIndex2bis].img, opponentQueenType);
         if (
             newSquares[shiftIndex1] &&
             newSquares[shiftIndex1].img === null &&
-            newSquares[shiftIndex1bis].img === opponentPawnType &&
+            (newSquares[shiftIndex1bis].img === opponentPawnType ||
+                newSquares[shiftIndex1bis].img === opponentQueenType) &&
             newSquares[shiftIndex1].color === color
         ) {
             newSquares[i].selected = true;
@@ -44,7 +48,8 @@ export const placeHoldersPawn = (
         if (
             newSquares[shiftIndex2] &&
             newSquares[shiftIndex2].img === null &&
-            newSquares[shiftIndex2bis].img === opponentPawnType &&
+            (newSquares[shiftIndex2bis].img === opponentPawnType ||
+                newSquares[shiftIndex2bis].img === opponentQueenType) &&
             newSquares[shiftIndex2].color === color
         ) {
             newSquares[i].selected = true;
@@ -53,7 +58,8 @@ export const placeHoldersPawn = (
         if (
             newSquares[shiftIndex3] &&
             newSquares[shiftIndex3].img === null &&
-            newSquares[shiftIndex3bis].img === opponentPawnType &&
+            (newSquares[shiftIndex3bis].img === opponentPawnType ||
+                newSquares[shiftIndex3bis].img === opponentQueenType) &&
             newSquares[shiftIndex3].color === color
         ) {
             newSquares[i].selected = true;
@@ -62,7 +68,8 @@ export const placeHoldersPawn = (
         if (
             newSquares[shiftIndex4] &&
             newSquares[shiftIndex4].img === null &&
-            newSquares[shiftIndex4bis].img === opponentPawnType &&
+            (newSquares[shiftIndex4bis].img === opponentPawnType ||
+                newSquares[shiftIndex4bis].img === opponentQueenType) &&
             newSquares[shiftIndex4].color === color
         ) {
             newSquares[i].selected = true;
@@ -100,11 +107,9 @@ export const MovePawn = (
     isQueen
 ) => {
     let piece = player === 1 ? "/w-pawn.png" : "/b-pawn.png";
-    piece = isQueen
-        ? piece.slice(0, 2) + "Q" + piece.slice(2, 8) + "svg"
-        : piece;
+    piece = isQueen ? piece.slice(0, 2) + "Q" + piece.slice(2) : piece;
     const opponentPiece = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
-    const queenPiece = player === 1 ? "/bQ-pawn.svg" : "/wQ-pawn.svg";
+    const queenPiece = player === 1 ? "/bQ-pawn.png" : "/wQ-pawn.png";
     const tempPiece = player === 1 ? "/wp-pawn.svg" : "/bp-pawn.svg";
     const colorBlue = "bg-blue-400";
     const colorBlueHighlight = "bg-blue-600";
@@ -168,7 +173,7 @@ export const MovePawn = (
         newSquares[i].id < 10 &&
         newSquares[i].id > 0
     ) {
-        newSquares[i].img = "/wQ-pawn.svg";
+        newSquares[i].img = "/wQ-pawn.png";
     }
 
     if (
@@ -176,7 +181,7 @@ export const MovePawn = (
         newSquares[i].id < 100 &&
         newSquares[i].id > 89
     ) {
-        newSquares[i].img = "/bQ-pawn.svg";
+        newSquares[i].img = "/bQ-pawn.png";
     }
 
     newSquares.map((el) => {
@@ -225,10 +230,15 @@ export const MovePawn = (
             setResultObligation(true);
         }
 
+        if (el.img === queenPiece) {
+            console.log(checkEnemyWithQueen(newSquares, el.id, player, false));
+        }
+
         if (
             el.img === queenPiece &&
             checkEnemyWithQueen(newSquares, el.id, player, true).length > 0
         ) {
+            console.log("WIW");
             el.color = colorBlueHighlight;
             setResultObligation(true);
             placeHoldersQueen(newSquares, el.id, player, true, false, true);

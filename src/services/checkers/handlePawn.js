@@ -95,6 +95,13 @@ export const placeHoldersPawn = (
     }
 };
 
+export let piecesEaten = {
+    whitePawn: 0,
+    whiteQueen: 0,
+    blackPawn: 0,
+    blackQueen: 0,
+};
+
 export const MovePawn = (
     newSquares,
     i,
@@ -127,10 +134,29 @@ export const MovePawn = (
                     : (newSquares[i].id - newSquares[pawnChoose].id) / 2;
 
             const calc = player === 1 ? pawnChoose - pawn : pawnChoose + pawn;
+
+            if (newSquares[calc].img === "/b-pawn.png")
+                piecesEaten.whitePawn += 1;
+            if (newSquares[calc].img === "/w-pawn.png")
+                piecesEaten.blackPawn += 1;
+            if (newSquares[calc].img === "/bQ-pawn.png")
+                piecesEaten.whiteQueen += 1;
+            if (newSquares[calc].img === "/wQ-pawn.png")
+                piecesEaten.blackQueen += 1;
+
             newSquares[calc].img = null;
         } else {
             directions.forEach((direction) => {
                 if (direction.ennemyPiece) {
+                    if (newSquares[direction.position].img === "/b-pawn.png")
+                        piecesEaten.whitePawn += 1;
+                    if (newSquares[direction.position].img === "/w-pawn.png")
+                        piecesEaten.blackPawn += 1;
+                    if (newSquares[direction.position].img === "/bQ-pawn.png")
+                        piecesEaten.whiteQueen += 1;
+                    if (newSquares[direction.position].img === "/wQ-pawn.png")
+                        piecesEaten.blackQueen += 1;
+
                     newSquares[direction.position].img = null;
                 }
             });

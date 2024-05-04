@@ -90,3 +90,24 @@ export const checkWinner = (squares, player, img, setWinner, setPlayer) => {
 
     return setPlayer(Number(whoNext));
 };
+
+export const calculateWinningChances = (
+    piecesWhite,
+    queensWhite,
+    piecesBlack,
+    queensBlack
+) => {
+    const valuePawn = 1;
+    const valueQueen = 2.15;
+
+    const totalWhite = piecesWhite * valuePawn + queensWhite * valueQueen;
+    const totalBlack = piecesBlack * valuePawn + queensBlack * valueQueen;
+
+    const totalPieces = totalWhite + totalBlack;
+    if (totalPieces === 0) return [0, 0]; // Éviter la division par zéro
+
+    const whiteChance = (totalWhite / totalPieces) * 100;
+    const blackChance = (totalBlack / totalPieces) * 100;
+
+    return [whiteChance.toFixed(1), blackChance.toFixed(1)];
+};

@@ -22,9 +22,9 @@ export default function Nav({ display, setDisplay }) {
     }, [setDisplay, size]);
 
     return (
-        <header className="bg-gray-200 select-none">
+        <header className="bg-gray-200 select-none h-[74px]">
             <div
-                className={`flex justify-between items-center text-white px-2 h-[74px] ${
+                className={`flex justify-between items-center text-white h-full px-2 ${
                     display && size.width > 640 ? "sm:w-full" : "sm:w-56"
                 } ${
                     size.width > 640 ? "cursor-pointer" : ""

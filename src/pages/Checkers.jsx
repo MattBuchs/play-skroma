@@ -51,10 +51,6 @@ function Checkers({ setDisplay }) {
                 setPawnChoose(newSquares[i].id);
                 clearTemporaryMoves(newSquares, tempPawnType);
 
-                // if (newSquares[i].img === pawnQueenType) {
-                //     newSquares[i].isQueen = true;
-                // }
-
                 if (newSquares[i].img === pawnQueenType) {
                     placeHoldersQueen(
                         newSquares,
@@ -107,8 +103,8 @@ function Checkers({ setDisplay }) {
     };
 
     return (
-        <div className="flex justify-center items-center grow -mt-4">
-            <Board squares={squares} onClick={handleClick} />
+        <div className="flex justify-center items-center py-4">
+            <Board squares={squares} onClick={handleClick} player={player} />
         </div>
     );
 }

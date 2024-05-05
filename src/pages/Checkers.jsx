@@ -31,6 +31,8 @@ function Checkers({ setDisplay }) {
             const pawnType = isPlayerOne ? "/w-pawn.png" : "/b-pawn.png";
             const tempPawnType = isPlayerOne ? "/wp-pawn.svg" : "/bp-pawn.svg";
             const pawnQueenType = isPlayerOne ? "/wQ-pawn.png" : "/bQ-pawn.png";
+            const pawnOpacity =
+                player === 1 ? "/b-pawn-opacity.png" : "/w-pawn-opacity.png";
             const direction = isPlayerOne ? "backward" : "forward";
             const opponentPawnType = isPlayerOne
                 ? "/b-pawn.png"
@@ -88,6 +90,10 @@ function Checkers({ setDisplay }) {
                 );
 
                 if (!isReplay) {
+                    newSquares.map((square) => {
+                        if (square.img === pawnOpacity) square.img = null;
+                    });
+
                     checkWinner(
                         newSquares,
                         player.toString(),

@@ -15,7 +15,7 @@ export default function Home({ setDisplay }) {
                 Welcome to PlaySkroma !
             </h2>
             <img
-                src="/logo.png"
+                src="/img/logo.png"
                 alt="logo"
                 className="w-[250px] h-[250px] sm:w-[450px] sm:h-[450px]"
             />

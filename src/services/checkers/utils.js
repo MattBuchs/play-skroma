@@ -1,4 +1,5 @@
 export const initializeSquares = () => {
+    let dialingId = 0;
     return Array(100)
         .fill(null)
         .map((_, index) => {
@@ -6,13 +7,16 @@ export const initializeSquares = () => {
             const col = index % 10;
             const isBlackSquare = (row + col) % 2 !== 0;
             const color = isBlackSquare ? "bg-[#86421d]" : "bg-[#d2a973]";
+
             if (isBlackSquare) {
-                if (row < 1)
+                dialingId++;
+                if (row < 4)
                     return {
                         id: index,
                         img: "/b-pawn.png",
                         color,
                         selected: false,
+                        dialingId,
                     };
                 else if (row > 5)
                     return {
@@ -20,6 +24,15 @@ export const initializeSquares = () => {
                         img: "/w-pawn.png",
                         color,
                         selected: false,
+                        dialingId,
+                    };
+                else
+                    return {
+                        id: index,
+                        img: null,
+                        color,
+                        selected: false,
+                        dialingId,
                     };
             }
             return {
@@ -27,6 +40,7 @@ export const initializeSquares = () => {
                 img: null,
                 color,
                 selected: false,
+                dialingId: null,
             };
         });
 };
@@ -79,7 +93,13 @@ export const checkReplay = (newSquares, i, setResultObligation) => {
 };
 
 export const checkWinner = (squares, player, img, setWinner, setPlayer) => {
-    const checkPawns = squares.find((square) => square.img === img);
+    let queen;
+    if (img === "/w-pawn.png") queen = "/wQ-pawn.png";
+    if (img === "/b-pawn.png") queen = "/bQ-pawn.png";
+
+    const checkPawns = squares.find(
+        (square) => square.img === img || square.img === queen
+    );
 
     if (!checkPawns) {
         setWinner(true);

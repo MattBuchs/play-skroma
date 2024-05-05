@@ -33,7 +33,11 @@ export default function Nav({ display, setDisplay }) {
             >
                 <div className="flex items-center">
                     {size.width > 400 && (
-                        <img src="/logo.png" alt="Logo" className="w-16 h-16" />
+                        <img
+                            src="/img/logo.png"
+                            alt="Logo"
+                            className="w-16 h-16"
+                        />
                     )}
                     <h1
                         className="text-xl mb-1 ml-2"

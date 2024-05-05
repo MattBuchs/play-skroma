@@ -6,7 +6,7 @@ export default function Piece({ onClick, value }) {
             className="w-full h-full flex justify-center items-center"
         >
             <img
-                src={value.img}
+                src={`/img${value.img}`}
                 alt=""
                 className={`w-4/5 h-4/5 rounded-full
                 ${

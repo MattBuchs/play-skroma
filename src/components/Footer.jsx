@@ -2,7 +2,7 @@ export default function Footer() {
     return (
         <footer className="bg-slate-900 h-12 text-slate-300 text-sm flex justify-evenly items-center">
             <div className="flex items-center">
-                <img src="/logo.png" alt="" className="w-8 h-8 mr-2" />
+                <img src="/img/logo.png" alt="" className="w-8 h-8 mr-2" />
                 <p>
                     Copyright &copy; {new Date().getFullYear()} - All Rights
                     Reserved.

@@ -5,6 +5,8 @@ import {
 } from "./handleQueenPawn.js";
 import { checkReplay } from "./utils";
 
+export const ratings = [];
+
 export const placeHoldersPawn = (
     newSquares,
     i,
@@ -116,18 +118,30 @@ export const MovePawn = (
     const opponentPiece = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
     const queenPiece = player === 1 ? "/bQ-pawn.png" : "/wQ-pawn.png";
     const tempPiece = player === 1 ? "/wp-pawn.svg" : "/bp-pawn.svg";
+    const pawnOpacity =
+        player === 1 ? "/b-pawn-opacity.png" : "/w-pawn-opacity.png";
     const colorBlue = "bg-blue-400";
     const colorBlueHighlight = "bg-blue-600";
     const colorStandard = "bg-[#86421d]";
     const shift1 = 18;
     const shift2 = 22;
+    let isReplay;
 
     newSquares[i].img = piece;
+    ratings.push({
+        player,
+        rating: `${
+            newSquares[pawnChoose].dialingId < 10
+                ? "0" + newSquares[pawnChoose].dialingId
+                : newSquares[pawnChoose].dialingId
+        }${resultObligation ? "x" : "-"}${newSquares[i].dialingId}`,
+    });
 
     if (newSquares[i].color === colorBlue) {
         newSquares[i].color = colorStandard;
 
         if (!isQueen) {
+            isReplay = checkReplay(newSquares, i, setResultObligation);
             const pawn =
                 player === 1
                     ? (newSquares[pawnChoose].id - newSquares[i].id) / 2
@@ -144,7 +158,10 @@ export const MovePawn = (
             if (newSquares[calc].img === "/wQ-pawn.png")
                 piecesEaten.blackQueen += 1;
 
-            newSquares[calc].img = null;
+            if (isReplay) newSquares[calc].img = pawnOpacity;
+            else {
+                newSquares[calc].img = null;
+            }
         } else {
             directions.forEach((direction) => {
                 if (direction.ennemyPiece) {
@@ -157,7 +174,15 @@ export const MovePawn = (
                     if (newSquares[direction.position].img === "/wQ-pawn.png")
                         piecesEaten.blackQueen += 1;
 
-                    newSquares[direction.position].img = null;
+                    newSquares[direction.position].img = pawnOpacity;
+                    isReplay = checkEnemyWithQueen(
+                        newSquares,
+                        i,
+                        player,
+                        false
+                    );
+                    if (isReplay.length === 0)
+                        newSquares[direction.position].img = null;
                 }
             });
         }
@@ -173,10 +198,7 @@ export const MovePawn = (
     });
 
     if (resultObligation) {
-        let isReplay;
         if (isQueen) {
-            isReplay = checkEnemyWithQueen(newSquares, i, player, false);
-
             if (isReplay.length > 0) {
                 isReplay = true;
                 newSquares[i].color = colorBlueHighlight;
@@ -193,6 +215,7 @@ export const MovePawn = (
             isReplay = checkReplay(newSquares, i, setResultObligation);
         }
 
+        console.log("IS REPLAY", isReplay);
         if (isReplay) return isReplay;
     }
 

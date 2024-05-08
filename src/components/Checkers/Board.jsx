@@ -1,6 +1,6 @@
 import Square from "./Square";
 import Scoreboard from "./Scoreboard";
-import { ratings } from "../../services/checkers/handlePawn";
+import { ratings } from "../../services/checkers/pawn";
 
 export default function Board({ squares, onClick, player }) {
     const renderSquare = (i) => (

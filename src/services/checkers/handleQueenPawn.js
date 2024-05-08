@@ -111,8 +111,6 @@ export const placeHoldersQueen = (
 
     if (!obligation) {
         directions.forEach((direction) => {
-            let x = i % boardSize;
-            let y = Math.floor(i / boardSize);
             let step = 1;
 
             while (true) {

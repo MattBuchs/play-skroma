@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Board from "../components/Checkers/Board.jsx";
-import { placeHoldersPawn, MovePawn } from "../services/checkers/handlePawn.js";
+import { MovePawn } from "../services/checkers/pawn.js";
+import { placeHoldersPawn } from "../services/checkers/handlePawns.js";
 import { placeHoldersQueen } from "../services/checkers/handleQueenPawn.js";
 import {
     initializeSquares,
@@ -31,15 +32,12 @@ function Checkers({ setDisplay }) {
             const pawnType = isPlayerOne ? "/w-pawn.png" : "/b-pawn.png";
             const tempPawnType = isPlayerOne ? "/wp-pawn.svg" : "/bp-pawn.svg";
             const pawnQueenType = isPlayerOne ? "/wQ-pawn.png" : "/bQ-pawn.png";
-            const pawnOpacity =
-                player === 1 ? "/b-pawn-opacity.png" : "/w-pawn-opacity.png";
-            const direction = isPlayerOne ? "backward" : "forward";
             const opponentPawnType = isPlayerOne
                 ? "/b-pawn.png"
                 : "/w-pawn.png";
-            const opponentQueenType = isPlayerOne
-                ? "/bQ-pawn.png"
-                : "/wQ-pawn.png";
+            const pawnOpacity = isPlayerOne
+                ? "/b-pawn-opacity.png"
+                : "/w-pawn-opacity.png";
 
             if (newSquares[i].selected) {
                 clearTemporaryMoves(newSquares, tempPawnType);
@@ -68,11 +66,10 @@ function Checkers({ setDisplay }) {
                 placeHoldersPawn(
                     newSquares,
                     i,
+                    player,
                     resultObligation,
-                    tempPawnType,
-                    direction,
-                    opponentPawnType,
-                    opponentQueenType
+                    true,
+                    false
                 );
 
                 return setSquares(newSquares);

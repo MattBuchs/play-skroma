@@ -3,19 +3,14 @@ import {
     placeHoldersQueen,
     directions,
 } from "./handleQueenPawn.js";
-import { checkReplay } from "./utils";
+import { checkEnemyWithPawn, placeHoldersPawn } from "./handlePawns.js";
 
 export const ratings = [];
 
-export const placeHoldersPawn = (
-    newSquares,
-    i,
-    resultObligation,
-    img,
-    direction,
-    opponentPawnType,
-    opponentQueenType
-) => {
+export const handlePawns = (newSquares, i, resultObligation, img, player) => {
+    const direction = player === 1 ? "backward" : "forward";
+    const opponentPawnType = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
+    const opponentQueenType = player === 1 ? "/bQ-pawn.png" : "/wQ-pawn.png";
     const shift1 = !resultObligation ? 9 : 18;
     const shift2 = !resultObligation ? 11 : 22;
     const shift1bis = !resultObligation ? 18 : 9;
@@ -123,8 +118,6 @@ export const MovePawn = (
     const colorBlue = "bg-blue-400";
     const colorBlueHighlight = "bg-blue-600";
     const colorStandard = "bg-[#86421d]";
-    const shift1 = 18;
-    const shift2 = 22;
     let isReplay;
 
     newSquares[i].img = piece;
@@ -141,7 +134,8 @@ export const MovePawn = (
         newSquares[i].color = colorStandard;
 
         if (!isQueen) {
-            isReplay = checkReplay(newSquares, i, setResultObligation);
+            isReplay = checkEnemyWithPawn(newSquares, i, player, false);
+
             const pawn =
                 player === 1
                     ? (newSquares[pawnChoose].id - newSquares[i].id) / 2
@@ -158,10 +152,8 @@ export const MovePawn = (
             if (newSquares[calc].img === "/wQ-pawn.png")
                 piecesEaten.blackQueen += 1;
 
-            if (isReplay) newSquares[calc].img = pawnOpacity;
-            else {
-                newSquares[calc].img = null;
-            }
+            newSquares[calc].img = pawnOpacity;
+            if (isReplay.length === 0) newSquares[calc].img = null;
         } else {
             directions.forEach((direction) => {
                 if (direction.ennemyPiece) {
@@ -198,24 +190,19 @@ export const MovePawn = (
     });
 
     if (resultObligation) {
-        if (isQueen) {
-            if (isReplay.length > 0) {
-                isReplay = true;
-                newSquares[i].color = colorBlueHighlight;
-                setResultObligation(true);
+        if (isReplay.length > 0) {
+            isReplay = true;
+            newSquares[i].color = colorBlueHighlight;
+            const newPlayer = player === 1 ? 2 : 1;
+            setResultObligation(true);
 
-                let newPlayer;
-                player === 1 ? (newPlayer = 2) : (newPlayer = 1);
-
+            if (isQueen)
                 placeHoldersQueen(newSquares, i, newPlayer, true, false, true);
-            } else {
-                isReplay = false;
-            }
+            else placeHoldersPawn(newSquares, i, newPlayer, true, false, true);
         } else {
-            isReplay = checkReplay(newSquares, i, setResultObligation);
+            isReplay = false;
         }
 
-        console.log("IS REPLAY", isReplay);
         if (isReplay) return isReplay;
     }
 
@@ -238,47 +225,11 @@ export const MovePawn = (
     newSquares.map((el) => {
         if (
             el.img === opponentPiece &&
-            newSquares[el.id + shift2] &&
-            newSquares[el.id + shift2].color === colorStandard &&
-            newSquares[el.id + shift2].img === null &&
-            newSquares[el.id + shift2 / 2].img === piece
+            checkEnemyWithPawn(newSquares, el.id, player, true).length > 0
         ) {
             el.color = colorBlueHighlight;
-            newSquares[el.id + shift2].color = colorBlue;
             setResultObligation(true);
-        }
-        if (
-            el.img === opponentPiece &&
-            newSquares[el.id + shift1] &&
-            newSquares[el.id + shift1].color === colorStandard &&
-            newSquares[el.id + shift1].img === null &&
-            newSquares[el.id + shift1 / 2].img === piece
-        ) {
-            el.color = colorBlueHighlight;
-            newSquares[el.id + shift1].color = colorBlue;
-            setResultObligation(true);
-        }
-        if (
-            el.img === opponentPiece &&
-            newSquares[el.id - shift2] &&
-            newSquares[el.id - shift2].color === colorStandard &&
-            newSquares[el.id - shift2].img === null &&
-            newSquares[el.id - shift2 / 2].img === piece
-        ) {
-            el.color = colorBlueHighlight;
-            newSquares[el.id - shift2].color = colorBlue;
-            setResultObligation(true);
-        }
-        if (
-            el.img === opponentPiece &&
-            newSquares[el.id - shift1] &&
-            newSquares[el.id - shift1].color === colorStandard &&
-            newSquares[el.id - shift1].img === null &&
-            newSquares[el.id - shift1 / 2].img === piece
-        ) {
-            el.color = colorBlueHighlight;
-            newSquares[el.id - shift1].color = colorBlue;
-            setResultObligation(true);
+            placeHoldersPawn(newSquares, el.id, player, true, false, true);
         }
 
         if (

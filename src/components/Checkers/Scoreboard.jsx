@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { calculateWinningChances } from "../../services/checkers/utils";
-import { piecesEaten } from "../../services/checkers/handlePawn";
+import { piecesEaten } from "../../services/checkers/pawn";
 import { createPortal } from "react-dom";
 import Settings from "./Modal/Settings";
 

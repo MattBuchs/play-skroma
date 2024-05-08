@@ -1,4 +1,10 @@
+import { useDispatch, useSelector } from "react-redux";
+import { ratingsRatings } from "../../../features/checkersSettings";
+
 export default function Settings({ closeModal }) {
+    const dispatch = useDispatch();
+    const { ratingsShown } = useSelector((state) => state.checkersSettings);
+
     return (
         <div
             onClick={closeModal}
@@ -16,6 +22,16 @@ export default function Settings({ closeModal }) {
                 </button>
 
                 <h2 className="font-semibold text-xl text-center">Settings</h2>
+
+                <input
+                    type="checkbox"
+                    id="ratings"
+                    checked={ratingsShown}
+                    onChange={() => dispatch(ratingsRatings())}
+                />
+                <label htmlFor="ratings" className="select-none ml-2">
+                    show/hide ratings
+                </label>
             </div>
         </div>
     );

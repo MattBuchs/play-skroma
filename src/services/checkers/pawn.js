@@ -134,7 +134,7 @@ export const MovePawn = (
         newSquares[i].color = colorStandard;
 
         if (!isQueen) {
-            isReplay = checkEnemyWithPawn(newSquares, i, player, false);
+            isReplay = checkEnemyWithPawn(newSquares, i, player, false, false);
 
             const pawn =
                 player === 1
@@ -225,7 +225,8 @@ export const MovePawn = (
     newSquares.map((el) => {
         if (
             el.img === opponentPiece &&
-            checkEnemyWithPawn(newSquares, el.id, player, true).length > 0
+            checkEnemyWithPawn(newSquares, el.id, player, true, false).length >
+                0
         ) {
             el.color = colorBlueHighlight;
             setResultObligation(true);

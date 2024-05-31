@@ -1,20 +1,32 @@
 import { useEffect, useState } from "react";
-import Board from "../components/Checkers/Board.jsx";
-import { MovePawn } from "../services/checkers/pawn.js";
-import { placeHoldersPawn } from "../services/checkers/handlePawns.js";
-import { placeHoldersQueen } from "../services/checkers/handleQueenPawn.js";
+import Board from "../../components/Checkers/Board.jsx";
+import { MovePawn } from "../../services/checkers/pawn.js";
+import { placeHoldersPawn } from "../../services/checkers/handlePawns.js";
+import { placeHoldersQueen } from "../../services/checkers/handleQueenPawn.js";
 import {
     initializeSquares,
     clearTemporaryMoves,
     checkWinner,
-} from "../services/checkers/utils.js";
+} from "../../services/checkers/utils.js";
+import { useSelector } from "react-redux";
+import { initializeSocket } from "../../services/socket.js";
+import { useParams } from "react-router-dom";
+import { nanoid } from "nanoid";
+const socket = initializeSocket("checkers");
 
-function Checkers({ setDisplay }) {
+function CheckersGame({ setDisplay }) {
+    const params = useParams();
     const [pawnChoose, setPawnChoose] = useState(null);
     const [resultObligation, setResultObligation] = useState(false);
     const [player, setPlayer] = useState(1);
     const [winner, setWinner] = useState(false);
     const [squares, setSquares] = useState(initializeSquares);
+    const { gameID } = useSelector((state) => state.checkersGame);
+    const userId = localStorage.getItem("userId") || nanoid();
+
+    useEffect(() => {
+        localStorage.setItem("userId", userId);
+    }, [userId]);
 
     useEffect(() => {
         setDisplay(false);
@@ -23,6 +35,31 @@ function Checkers({ setDisplay }) {
     useEffect(() => {
         document.title = "PlaySkroma | Checkers";
     }, []);
+
+    useEffect(() => {
+        socket.on("connect", () => {
+            console.log("Connected to server");
+        });
+
+        const gameId = gameID || params.gameID;
+        socket.emit("joinGame", { gameId, userId }, (response) => {
+            console.log(gameId, userId);
+            if (response.success) {
+                setSquares(response.squares);
+            } else {
+                alert(response.message);
+            }
+        });
+
+        socket.on("move", (data) => {
+            console.log("WOW");
+            setSquares(data.squares);
+        });
+
+        return () => {
+            socket.disconnect();
+        };
+    }, [gameID, userId]);
 
     const handleClick = (i) => {
         const newSquares = squares.slice();
@@ -98,6 +135,14 @@ function Checkers({ setDisplay }) {
                         setWinner,
                         setPlayer
                     );
+
+                    let gameId = gameID;
+                    if (!gameID) gameId = params.gameID;
+
+                    socket.emit("move", {
+                        gameId,
+                        squares: newSquares,
+                    });
                 }
             }
         }
@@ -112,4 +157,4 @@ function Checkers({ setDisplay }) {
     );
 }
 
-export default Checkers;
+export default CheckersGame;

@@ -3,7 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
-import Checkers from "./pages/Checkers";
+import CheckersGame from "./pages/Checkers/CheckersGame";
+import CheckersHome from "./pages/Checkers/CheckersHome";
+import NotFound from "./pages/NotFound";
 
 function App() {
     const [display, setDisplay] = useState(true);
@@ -18,8 +20,20 @@ function App() {
                         element={<Home setDisplay={setDisplay} />}
                     />
                     <Route
+                        path="/checkers-home"
+                        element={<CheckersHome setDisplay={setDisplay} />}
+                    />
+                    <Route
                         path="/checkers"
-                        element={<Checkers setDisplay={setDisplay} />}
+                        element={<CheckersGame setDisplay={setDisplay} />}
+                    />
+                    <Route
+                        path="/checkers/:gameID"
+                        element={<CheckersGame setDisplay={setDisplay} />}
+                    />
+                    <Route
+                        path="*"
+                        element={<NotFound setDisplay={setDisplay} />}
                     />
                 </Routes>
             </main>

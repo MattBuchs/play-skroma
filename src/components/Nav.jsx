@@ -64,7 +64,7 @@ export default function Nav({ display, setDisplay }) {
                             </li>
                             <li className="ml-4">
                                 <NavLink
-                                    to={"/checkers"}
+                                    to={"/checkers-home"}
                                     className={({ isActive }) =>
                                         isActive
                                             ? "underline underline-offset-4"

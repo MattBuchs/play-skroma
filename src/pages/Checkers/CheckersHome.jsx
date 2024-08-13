@@ -1,13 +1,12 @@
 import { useState } from "react";
+import { nanoid } from "nanoid";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 import { getSocket } from "../../services/socket";
 import CreateGameModal from "../../components/Checkers/Modal/CreateGameModal";
 import JoinGameModal from "../../components/Checkers/Modal/JoinGameModal";
-import { setGameID } from "../../features/checkersGame";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { nanoid } from "nanoid";
+import { setGameID, setOnlineMode } from "../../features/checkersGame";
 
 const userId = localStorage.getItem("userId") || nanoid();
 localStorage.setItem("userId", userId);
@@ -28,14 +27,19 @@ export default function CheckersHome() {
         });
     };
 
+    const handleLocalMode = () => {
+        dispatch(setOnlineMode(false));
+        navigate("/checkers");
+    };
+
     return (
         <section className="flex flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[52%]">
-            <Link
-                to="/checkers"
+            <button
+                onClick={handleLocalMode}
                 className="bg-blue-700 text-white px-28 py-5 text-2xl rounded shadow hover:bg-blue-800"
             >
                 Local game
-            </Link>
+            </button>
             <button
                 onClick={handleCreateGame}
                 className="bg-blue-700 text-white px-28 py-5 text-2xl rounded shadow mt-1 hover:bg-blue-800"

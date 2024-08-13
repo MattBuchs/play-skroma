@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     gameID: null,
-    gameMode: null,
+    onlineMode: null,
 };
 
 export const checkersGame = createSlice({
@@ -12,8 +12,11 @@ export const checkersGame = createSlice({
         setGameID: (state, action) => {
             state.gameID = action.payload;
         },
+        setOnlineMode: (state, action) => {
+            state.gameMode = action.payload;
+        },
     },
 });
 
-export const { setGameID } = checkersGame.actions;
+export const { setGameID, setOnlineMode } = checkersGame.actions;
 export default checkersGame.reducer;

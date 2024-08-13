@@ -1,17 +1,77 @@
-/* eslint-disable no-constant-condition */
 import { handlePawns } from "./pawn";
 
 let directionsPawn = [
-    { x: -1, y: -1, ennemyPiece: 0, position: null }, // Haut gauche
-    { x: 1, y: -1, ennemyPiece: 0, position: null }, // Haut droit
-    { x: -1, y: 1, ennemyPiece: 0, position: null }, // Bas gauche
-    { x: 1, y: 1, ennemyPiece: 0, position: null }, // Bas droit
+    { x: -1, y: -1 }, // Haut gauche
+    { x: 1, y: -1 }, // Haut droit
+    { x: -1, y: 1 }, // Bas gauche
+    { x: 1, y: 1 }, // Bas droit
 ];
 
-export const checkEnemyWithPawn = (newSquares, i, player, isOpponent) => {
+const findLongestJumpChain = (
+    newSquares,
+    pawn,
+    opponentPiece,
+    opponentQueenPiece,
+    pastPlaces,
+    chainLength,
+    chains
+) => {
+    if (pastPlaces.find((el) => el === pawn)) return;
+
     const boardSize = Math.sqrt(newSquares.length); // Assuming a square board
-    const x = i % boardSize;
-    const y = Math.floor(i / boardSize);
+    const x = pawn % boardSize;
+    const y = Math.floor(pawn / boardSize);
+
+    for (let i = 0; i < directionsPawn.length; i++) {
+        const direction = directionsPawn[i];
+        const nextX = x + direction.x * 2;
+        const nextY = y + direction.y * 2;
+        const nextIndex = nextY * boardSize + nextX;
+
+        if (
+            nextX >= 0 &&
+            nextX < boardSize && // Assurer que nextX est dans les limites du plateau
+            nextY >= 0 &&
+            nextY < boardSize // Assurer que nextY est dans les limites du plateau
+        ) {
+            if (newSquares[nextIndex].img === null) {
+                const previousNextX = x + direction.x * 1;
+                const previousNextY = y + direction.y * 1;
+                const previousNextIndex =
+                    previousNextY * boardSize + previousNextX;
+
+                if (
+                    newSquares[previousNextIndex].img &&
+                    (newSquares[previousNextIndex].img.includes(
+                        opponentPiece
+                    ) ||
+                        newSquares[previousNextIndex].img.includes(
+                            opponentQueenPiece
+                        ))
+                ) {
+                    if (!pastPlaces.find((el) => el === nextIndex)) {
+                        const newChain = [...chainLength, nextIndex];
+                        chains.push(newChain);
+
+                        pastPlaces.push(pawn);
+
+                        findLongestJumpChain(
+                            newSquares,
+                            nextIndex,
+                            opponentPiece,
+                            opponentQueenPiece,
+                            pastPlaces,
+                            newChain,
+                            chains
+                        );
+                    }
+                }
+            }
+        }
+    }
+};
+
+export const checkEnemyWithPawn = (newSquares, pawn, player, isOpponent) => {
     let opponentPiece = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
     let opponentQueenPiece = player === 1 ? "/bQ-pawn.png" : "/wQ-pawn.png";
 
@@ -20,65 +80,29 @@ export const checkEnemyWithPawn = (newSquares, i, player, isOpponent) => {
         opponentQueenPiece = player === 1 ? "/wQ-pawn.png" : "/bQ-pawn.png";
     }
 
-    directionsPawn = [
-        { x: -1, y: -1, ennemyPiece: 0, position: null }, // Haut gauche
-        { x: 1, y: -1, ennemyPiece: 0, position: null }, // Haut droit
-        { x: -1, y: 1, ennemyPiece: 0, position: null }, // Bas gauche
-        { x: 1, y: 1, ennemyPiece: 0, position: null }, // Bas droit
-    ];
-
-    directionsPawn.forEach((direction) => {
-        let step = 1;
-        let canJump = false;
-
-        while (true) {
-            const nextX = x + step * direction.x;
-            const nextY = y + step * direction.y;
-            const nextIndex = nextY * boardSize + nextX;
-
-            if (
-                nextX < 0 ||
-                nextX >= boardSize ||
-                nextY < 0 ||
-                nextY >= boardSize
-            ) {
-                break;
-            }
-
-            if (newSquares[nextIndex].img === null) {
-                if (canJump) {
-                    direction.ennemyPiece += 1; // Increment the count of enemy pieces in this direction
-                    direction.position = nextIndex;
-                    canJump = false;
-                }
-            } else if (
-                newSquares[nextIndex].img.includes(opponentPiece) ||
-                newSquares[nextIndex].img.includes(opponentQueenPiece)
-            ) {
-                if (step === 1) {
-                    canJump = true;
-                } else {
-                    break;
-                }
-            } else {
-                break;
-            }
-
-            step++;
-        }
-    });
-
-    const maxEnnemyPiece = Math.max(
-        ...directionsPawn.map((direction) => direction.ennemyPiece)
-    );
-    const maxEnnemyDirections = directionsPawn.filter(
-        (direction) => direction.ennemyPiece === maxEnnemyPiece
+    const pastPlaces = [];
+    const chains = [];
+    findLongestJumpChain(
+        newSquares,
+        pawn,
+        opponentPiece,
+        opponentQueenPiece,
+        pastPlaces,
+        [],
+        chains
     );
 
-    if (maxEnnemyDirections.find((direction) => direction.ennemyPiece === 0))
-        return [];
+    const longestChainLength = chains.reduce(
+        (maxLength, chain) => Math.max(maxLength, chain.length),
+        0
+    );
 
-    return maxEnnemyDirections;
+    const longestChains = chains.filter(
+        (chain) => chain.length === longestChainLength
+    );
+    console.log("Longest Chain:", longestChains);
+
+    return longestChains;
 };
 
 export const placeHoldersPawn = (
@@ -90,17 +114,10 @@ export const placeHoldersPawn = (
     isOpponent
 ) => {
     const pieceTemp = player === 1 ? "/wp-pawn.svg" : "/bp-pawn.svg";
-    let piece = player === 1 ? "/w-pawn.png" : "/b-pawn.png";
-    let queenPiece = player === 1 ? "/wQ-pawn.png" : "/bQ-pawn.png";
-    const boardSize = Math.sqrt(newSquares.length); // Assuming a square board
-    const x = i % boardSize;
-    const y = Math.floor(i / boardSize);
     const color = !obligation ? "bg-[#86421d]" : "bg-blue-400";
 
     if (isClicked) {
         newSquares[i].selected = true;
-        piece = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
-        queenPiece = player === 1 ? "/bQ-pawn.png" : "/wQ-pawn.png";
     }
 
     // First check for enemies with an empty space behind them
@@ -111,52 +128,11 @@ export const placeHoldersPawn = (
         isOpponent
     );
 
-    console.log("1", checkEnnemyPiece);
-
     if (checkEnnemyPiece.length > 0) {
-        directionsPawn.forEach((direction) => {
-            let step = 1;
-            let canJump = false;
+        checkEnnemyPiece.forEach((chain) => {
+            newSquares[chain[0]].color = color;
 
-            while (true) {
-                const nextX = x + step * direction.x;
-                const nextY = y + step * direction.y;
-                const nextIndex = nextY * boardSize + nextX;
-
-                if (
-                    nextX < 0 ||
-                    nextX >= boardSize ||
-                    nextY < 0 ||
-                    nextY >= boardSize
-                ) {
-                    break;
-                }
-
-                if (newSquares[nextIndex].img === null) {
-                    if (canJump) {
-                        canJump = false;
-                        if (
-                            direction.ennemyPiece ===
-                            checkEnnemyPiece[0].ennemyPiece
-                        ) {
-                            newSquares[nextIndex].color = color;
-                            if (isClicked)
-                                newSquares[nextIndex].img = pieceTemp;
-
-                            break;
-                        }
-                    }
-                } else if (
-                    newSquares[nextIndex].img.includes(piece) ||
-                    newSquares[nextIndex].img.includes(queenPiece)
-                ) {
-                    canJump = true;
-                } else {
-                    break;
-                }
-
-                step++;
-            }
+            if (isClicked) newSquares[chain[0]].img = pieceTemp;
         });
     }
 

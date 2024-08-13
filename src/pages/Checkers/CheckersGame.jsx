@@ -21,7 +21,7 @@ function CheckersGame({ setDisplay }) {
     const [player, setPlayer] = useState(1);
     const [winner, setWinner] = useState(false);
     const [squares, setSquares] = useState(initializeSquares);
-    const { gameID } = useSelector((state) => state.checkersGame);
+    const { gameID, onlineMode } = useSelector((state) => state.checkersGame);
     const userId = localStorage.getItem("userId") || nanoid();
 
     useEffect(() => {
@@ -37,29 +37,31 @@ function CheckersGame({ setDisplay }) {
     }, []);
 
     useEffect(() => {
-        socket.on("connect", () => {
-            console.log("Connected to server");
-        });
+        if (onlineMode) {
+            socket.on("connect", () => {
+                console.log("Connected to server");
+            });
 
-        const gameId = gameID || params.gameID;
-        socket.emit("joinGame", { gameId, userId }, (response) => {
-            console.log(gameId, userId);
-            if (response.success) {
-                setSquares(response.squares);
-            } else {
-                alert(response.message);
-            }
-        });
+            const gameId = gameID || params.gameID;
+            socket.emit("joinGame", { gameId, userId }, (response) => {
+                console.log(gameId, userId);
+                if (response.success) {
+                    setSquares(response.squares);
+                } else {
+                    alert(response.message);
+                }
+            });
 
-        socket.on("move", (data) => {
-            console.log("WOW");
-            setSquares(data.squares);
-        });
+            socket.on("move", (data) => {
+                console.log("WOW");
+                setSquares(data.squares);
+            });
 
-        return () => {
-            socket.disconnect();
-        };
-    }, [gameID, userId]);
+            return () => {
+                socket.disconnect();
+            };
+        }
+    }, [gameID, userId, onlineMode, params.gameID]);
 
     const handleClick = (i) => {
         const newSquares = squares.slice();

@@ -20,9 +20,10 @@ export default function CreateGameModal({ closeModal }) {
                 </button>
 
                 <h2>Game created</h2>
-                <p>
+                {/* <p>
                     Game ID : <span>{gameID}</span>
-                </p>
+                </p> */}
+                <p className="text-red-600 font-bold">En construction</p>
             </div>
         </div>
     );

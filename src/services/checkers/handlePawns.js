@@ -1,6 +1,6 @@
 import { handlePawns } from "./pawn";
 
-let directionsPawn = [
+const directionsPawn = [
     { x: -1, y: -1 }, // Haut gauche
     { x: 1, y: -1 }, // Haut droit
     { x: -1, y: 1 }, // Bas gauche
@@ -35,8 +35,8 @@ const findLongestJumpChain = (
             nextY < boardSize // Assurer que nextY est dans les limites du plateau
         ) {
             if (newSquares[nextIndex].img === null) {
-                const previousNextX = x + direction.x * 1;
-                const previousNextY = y + direction.y * 1;
+                const previousNextX = x + direction.x;
+                const previousNextY = y + direction.y;
                 const previousNextIndex =
                     previousNextY * boardSize + previousNextX;
 
@@ -100,7 +100,6 @@ export const checkEnemyWithPawn = (newSquares, pawn, player, isOpponent) => {
     const longestChains = chains.filter(
         (chain) => chain.length === longestChainLength
     );
-    console.log("Longest Chain:", longestChains);
 
     return longestChains;
 };

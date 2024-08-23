@@ -1,10 +1,160 @@
-/* eslint-disable no-constant-condition */
-export let directions = [
-    { x: -1, y: -1, ennemyPiece: false, position: null }, // Haut gauche
-    { x: 1, y: -1, ennemyPiece: false, position: null }, // Haut droit
-    { x: -1, y: 1, ennemyPiece: false, position: null }, // Bas gauche
-    { x: 1, y: 1, ennemyPiece: false, position: null }, // Bas droit
+export let checkEnnemyPiece = [];
+
+const directionsQueen = [
+    { x: -1, y: -1 }, // Haut gauche
+    { x: 1, y: -1 }, // Haut droit
+    { x: -1, y: 1 }, // Bas gauche
+    { x: 1, y: 1 }, // Bas droit
 ];
+
+const findLongestJumpChainQueen = (
+    newSquares,
+    queen,
+    opponentPiece,
+    opponentQueenPiece,
+    pastPlaces,
+    chainLength,
+    chains,
+    previousDirection
+) => {
+    if (pastPlaces.find((el) => el === queen)) return;
+
+    const boardSize = Math.sqrt(newSquares.length); // Assuming a square board
+    const x = queen % boardSize;
+    const y = Math.floor(queen / boardSize);
+
+    for (let i = 0; i < directionsQueen.length; i++) {
+        const direction = directionsQueen[i];
+
+        if (
+            previousDirection &&
+            previousDirection.x === direction.x &&
+            previousDirection.y === direction.y
+        ) {
+            continue;
+        }
+
+        let step = 1;
+        let canJump = false;
+        let loop = true;
+
+        while (loop) {
+            const nextX = x + direction.x * step;
+            const nextY = y + direction.y * step;
+            const nextIndex = nextY * boardSize + nextX;
+
+            if (
+                nextX < 0 ||
+                nextX >= boardSize ||
+                nextY < 0 ||
+                nextY >= boardSize
+            ) {
+                break;
+            }
+
+            if (newSquares[nextIndex].img === null) {
+                if (canJump) {
+                    if (!pastPlaces.find((el) => el === nextIndex)) {
+                        // const previousX = x + direction.x * (step - 1);
+                        // const previousY = y + direction.y * (step - 1);
+                        // const previousIndex = previousY * boardSize + previousX;
+                        const othersIndex = [];
+                        let step2 = step++;
+
+                        while (loop) {
+                            const otherNextX = x + direction.x * step2;
+                            const otherNextY = y + direction.y * step2;
+                            const otherNextIndex =
+                                otherNextY * boardSize + otherNextX;
+
+                            if (
+                                otherNextX < 0 ||
+                                otherNextX >= boardSize ||
+                                otherNextY < 0 ||
+                                otherNextY >= boardSize
+                            ) {
+                                break;
+                            }
+
+                            if (newSquares[otherNextIndex].img === null) {
+                                othersIndex.push(otherNextIndex);
+                                step2++;
+                            } else {
+                                break;
+                            }
+                        }
+
+                        const newChain = [...chainLength, othersIndex];
+
+                        chains.push(newChain);
+                        pastPlaces.push(queen);
+
+                        const oppositeDirection = {
+                            x: direction.x * -1,
+                            y: direction.y * -1,
+                        };
+
+                        findLongestJumpChainQueen(
+                            newSquares,
+                            nextIndex,
+                            opponentPiece,
+                            opponentQueenPiece,
+                            pastPlaces,
+                            newChain,
+                            chains,
+                            oppositeDirection
+                        );
+                    }
+                }
+                canJump = false;
+            } else if (
+                canJump === false &&
+                (newSquares[nextIndex].img.includes(opponentPiece) ||
+                    newSquares[nextIndex].img.includes(opponentQueenPiece))
+            ) {
+                canJump = true;
+            } else {
+                break;
+            }
+
+            step++;
+        }
+    }
+};
+
+export const checkEnemyWithQueen = (newSquares, queen, player, isOpponent) => {
+    let opponentPiece = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
+    let opponentQueenPiece = player === 1 ? "/bQ-pawn.png" : "/wQ-pawn.png";
+
+    if (isOpponent) {
+        opponentPiece = player === 1 ? "/w-pawn.png" : "/b-pawn.png";
+        opponentQueenPiece = player === 1 ? "/wQ-pawn.png" : "/bQ-pawn.png";
+    }
+
+    const pastPlaces = [];
+    const chains = [];
+    findLongestJumpChainQueen(
+        newSquares,
+        queen,
+        opponentPiece,
+        opponentQueenPiece,
+        pastPlaces,
+        [],
+        chains,
+        null
+    );
+
+    const longestChainLength = chains.reduce(
+        (maxLength, chain) => Math.max(maxLength, chain.length),
+        0
+    );
+
+    const longestChains = chains.filter(
+        (chain) => chain.length === longestChainLength
+    );
+
+    return longestChains;
+};
 
 export const placeHoldersQueen = (
     newSquares,
@@ -15,8 +165,6 @@ export const placeHoldersQueen = (
     isOpponent
 ) => {
     const pieceTemp = player === 1 ? "/wp-pawn.svg" : "/bp-pawn.svg";
-    let piece = player === 1 ? "/w-pawn.png" : "/b-pawn.png";
-    let queenPiece = player === 1 ? "/wQ-pawn.png" : "/bQ-pawn.png";
     const boardSize = Math.sqrt(newSquares.length); // Assuming a square board
     const x = i % boardSize;
     const y = Math.floor(i / boardSize);
@@ -24,96 +172,39 @@ export const placeHoldersQueen = (
 
     if (isClicked) {
         newSquares[i].selected = true;
-        piece = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
-        queenPiece = player === 1 ? "/bQ-pawn.png" : "/wQ-pawn.png";
     }
 
     // First check for enemies with an empty space behind them
-    const checkEnnemyPiece = checkEnemyWithQueen(
-        newSquares,
-        i,
-        player,
-        isOpponent
-    );
+    checkEnnemyPiece = checkEnemyWithQueen(newSquares, i, player, isOpponent);
 
     if (checkEnnemyPiece.length > 0) {
-        // Movement logic based on initial check
-        directions.forEach((direction) => {
-            let step = 1;
-            let isJumping = false; // Indicates if the queen is in the process of jumping over an opponent
+        checkEnnemyPiece.forEach((chain) => {
+            if (checkEnnemyPiece[0].length === 1) {
+                chain[0].forEach((box) => {
+                    newSquares[box].color = color;
+                });
+            } else {
+                newSquares[chain[0][0]].color = color;
+            }
 
-            while (true) {
-                const nextX = x + step * direction.x;
-                const nextY = y + step * direction.y;
-                const nextIndex = nextY * boardSize + nextX;
-
-                // Check if the next position is out of bounds
-                if (
-                    nextX < 0 ||
-                    nextX >= boardSize ||
-                    nextY < 0 ||
-                    nextY >= boardSize
-                ) {
-                    break;
+            if (isClicked) {
+                if (checkEnnemyPiece[0].length === 1) {
+                    chain[0].forEach((box) => {
+                        newSquares[box].img = pieceTemp;
+                    });
+                } else {
+                    newSquares[chain[0][0]].img = pieceTemp;
                 }
-
-                const jumpX = nextX + direction.x;
-                const jumpY = nextY + direction.y;
-                const jumpIndex = jumpY * boardSize + jumpX;
-
-                if (newSquares[nextIndex].img !== null && !isJumping) {
-                    if (
-                        newSquares[nextIndex].img.includes(piece) ||
-                        newSquares[nextIndex].img.includes(queenPiece)
-                    ) {
-                        // Check if the space after the enemy is empty and valid for a jump
-                        if (
-                            jumpX >= 0 &&
-                            jumpX < boardSize &&
-                            jumpY >= 0 &&
-                            jumpY < boardSize &&
-                            newSquares[jumpIndex].img === null
-                        ) {
-                            if (direction.ennemyPiece) {
-                                if (isClicked)
-                                    newSquares[jumpIndex].img = pieceTemp; // Mark this as a valid move
-                                newSquares[jumpIndex].color = color;
-                                isJumping = true; // The queen is now jumping
-                                step++; // Move to the next step in this direction
-                                continue;
-                            }
-                        }
-                    }
-                    break; // Stop if an enemy is encountered and no jump is possible
-                }
-
-                if (isJumping) {
-                    // Continue marking accessible squares after the jump
-                    if (isClicked) {
-                        newSquares[nextIndex].img = pieceTemp;
-                    }
-                    newSquares[nextIndex].color = color;
-
-                    if (
-                        newSquares[jumpIndex] &&
-                        newSquares[jumpIndex].img !== null
-                    ) {
-                        break;
-                    }
-                }
-
-                step++;
             }
         });
-
-        return;
     }
 
     if (!obligation) {
-        directions.forEach((direction) => {
+        directionsQueen.forEach((direction) => {
             let step = 1;
+            let loop = true;
 
-            while (true) {
+            while (loop) {
                 const nextX = x + step * direction.x;
                 const nextY = y + step * direction.y;
                 const nextIndex = nextY * boardSize + nextX;
@@ -150,76 +241,4 @@ export const placeHoldersQueen = (
             }
         });
     }
-};
-
-export const checkEnemyWithQueen = (newSquares, i, player, isOpponent) => {
-    const boardSize = Math.sqrt(newSquares.length); // Assuming a square board
-    const x = i % boardSize;
-    const y = Math.floor(i / boardSize);
-    let opponentPiece = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
-    let opponentQueenPiece = player === 1 ? "/bQ-pawn.png" : "/wQ-pawn.png";
-
-    directions = [
-        { x: -1, y: -1, ennemyPiece: false, position: null }, // Haut gauche
-        { x: 1, y: -1, ennemyPiece: false, position: null }, // Haut droit
-        { x: -1, y: 1, ennemyPiece: false, position: null }, // Bas gauche
-        { x: 1, y: 1, ennemyPiece: false, position: null }, // Bas droit
-    ];
-
-    if (isOpponent) {
-        opponentPiece = player === 1 ? "/w-pawn.png" : "/b-pawn.png";
-        opponentQueenPiece = player === 1 ? "/wQ-pawn.png" : "/bQ-pawn.png";
-    }
-
-    directions.forEach((direction) => {
-        let step = 1;
-
-        while (true) {
-            const nextX = x + step * direction.x;
-            const nextY = y + step * direction.y;
-            const nextIndex = nextY * boardSize + nextX;
-
-            if (
-                nextX < 0 ||
-                nextX >= boardSize ||
-                nextY < 0 ||
-                nextY >= boardSize
-            ) {
-                break;
-            }
-
-            if (newSquares[nextIndex].img !== null) {
-                if (
-                    newSquares[nextIndex].img.includes(opponentPiece) ||
-                    newSquares[nextIndex].img.includes(opponentQueenPiece)
-                ) {
-                    const jumpX = nextX + direction.x;
-                    const jumpY = nextY + direction.y;
-                    const jumpIndex = jumpY * boardSize + jumpX;
-
-                    if (
-                        jumpX >= 0 &&
-                        jumpX < boardSize &&
-                        jumpY >= 0 &&
-                        jumpY < boardSize &&
-                        newSquares[jumpIndex].img === null
-                    ) {
-                        if (direction.ennemyPiece === false) {
-                            direction.ennemyPiece = true; // Mark direction as having an enemy piece with space to jump
-                            direction.position = nextIndex;
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-            step++;
-        }
-    });
-
-    const checkEnnemyPiece = directions.filter(
-        (direction) => direction.ennemyPiece
-    );
-
-    return checkEnnemyPiece;
 };

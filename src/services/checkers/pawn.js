@@ -1,11 +1,10 @@
-import {
-    checkEnemyWithQueen,
-    placeHoldersQueen,
-    directions,
-} from "./handleQueenPawn.js";
+import { checkEnemyWithQueen, placeHoldersQueen } from "./handleQueenPawn.js";
 import { checkEnemyWithPawn, placeHoldersPawn } from "./handlePawns.js";
+import { getDiagonalBetween } from "./utils.js";
+import { checkEnnemyPiece } from "./handleQueenPawn.js";
 
 export const ratings = [];
+let numberOfShots = -1;
 
 export const handlePawns = (newSquares, i, resultObligation, img, player) => {
     const direction = player === 1 ? "backward" : "forward";
@@ -153,28 +152,39 @@ export const MovePawn = (
                 piecesEaten.blackQueen += 1;
 
             newSquares[calc].img = pawnOpacity;
+
             if (isReplay.length === 0) newSquares[calc].img = null;
         } else {
-            directions.forEach((direction) => {
-                if (direction.ennemyPiece) {
-                    if (newSquares[direction.position].img === "/b-pawn.png")
+            isReplay = checkEnnemyPiece;
+
+            if (numberOfShots === -1) {
+                numberOfShots = isReplay[0].length;
+                numberOfShots--;
+            } else numberOfShots--;
+
+            if (numberOfShots === 0) {
+                isReplay = [];
+                numberOfShots = -1;
+            }
+
+            const opponentPawn = getDiagonalBetween(
+                newSquares[pawnChoose].id,
+                newSquares[i].id,
+                10
+            );
+
+            opponentPawn.forEach((box) => {
+                if (newSquares[box].img) {
+                    if (newSquares[box].img === "/b-pawn.png")
                         piecesEaten.whitePawn += 1;
-                    if (newSquares[direction.position].img === "/w-pawn.png")
+                    if (newSquares[box].img === "/w-pawn.png")
                         piecesEaten.blackPawn += 1;
-                    if (newSquares[direction.position].img === "/bQ-pawn.png")
+                    if (newSquares[box].img === "/bQ-pawn.png")
                         piecesEaten.whiteQueen += 1;
-                    if (newSquares[direction.position].img === "/wQ-pawn.png")
+                    if (newSquares[box].img === "/wQ-pawn.png")
                         piecesEaten.blackQueen += 1;
 
-                    newSquares[direction.position].img = pawnOpacity;
-                    isReplay = checkEnemyWithQueen(
-                        newSquares,
-                        i,
-                        player,
-                        false
-                    );
-                    if (isReplay.length === 0)
-                        newSquares[direction.position].img = null;
+                    newSquares[box].img = pawnOpacity;
                 }
             });
         }

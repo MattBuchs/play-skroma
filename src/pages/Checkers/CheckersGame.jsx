@@ -53,7 +53,6 @@ function CheckersGame({ setDisplay }) {
             });
 
             socket.on("move", (data) => {
-                console.log("WOW");
                 setSquares(data.squares);
             });
 

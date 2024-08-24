@@ -27,6 +27,13 @@ export default function Scoreboard({ player, percentage, width }) {
         }
     });
 
+    useEffect(() => {
+        piecesEaten.whitePawn = 0;
+        piecesEaten.whiteQueen = 0;
+        piecesEaten.blackPawn = 0;
+        piecesEaten.blackQueen = 0;
+    }, []);
+
     return (
         <>
             <div className="flex flex-col lg:flex-col-reverse justify-between h-full text-white">

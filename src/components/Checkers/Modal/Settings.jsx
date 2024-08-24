@@ -25,15 +25,26 @@ export default function Settings({ closeModal }) {
 
                 <h2 className="font-semibold text-xl text-center">Settings</h2>
 
-                <input
-                    type="checkbox"
-                    id="ratings"
-                    checked={ratingsShown}
-                    onChange={() => dispatch(ratingsRatings())}
-                />
-                <label htmlFor="ratings" className="select-none ml-2">
-                    show/hide ratings
-                </label>
+                <div>
+                    <input
+                        type="checkbox"
+                        id="ratings"
+                        checked={ratingsShown}
+                        onChange={() => dispatch(ratingsRatings())}
+                    />
+                    <label htmlFor="ratings" className="select-none ml-2">
+                        show/hide ratings
+                    </label>
+                </div>
+
+                <div>
+                    <label htmlFor="">
+                        Chrono Time :{" "}
+                        <span className="text-red-600 font-bold">
+                            under construction
+                        </span>
+                    </label>
+                </div>
             </div>
         </div>
     );

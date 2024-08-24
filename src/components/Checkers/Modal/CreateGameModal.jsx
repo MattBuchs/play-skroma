@@ -23,7 +23,7 @@ export default function CreateGameModal({ closeModal }) {
                 {/* <p>
                     Game ID : <span>{gameID}</span>
                 </p> */}
-                <p className="text-red-600 font-bold">En construction</p>
+                <p className="text-red-600 font-bold">under construction</p>
             </div>
         </div>
     );

@@ -44,7 +44,7 @@ export default function JoinGameModal({ closeModal }) {
                 <h2>Join a game</h2>
                 {/* <input type="text" onChange={(e) => setValue(e.target.value)} />
                 <button onClick={() => handleJoinGame(value)}>Send</button> */}
-                <p className="text-red-600 font-bold">En construction</p>
+                <p className="text-red-600 font-bold">under construction</p>
             </div>
         </div>
     );

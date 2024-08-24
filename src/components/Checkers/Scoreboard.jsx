@@ -85,7 +85,7 @@ export default function Scoreboard({ player, percentage, width }) {
                     </div>
                 </div>
                 <div className="bg-amber-950 h-full my-2 rounded p-4 flex flex-col items-center justify-between relative">
-                    <p className="text-4xl font-semibold">10:00</p>
+                    <p className="text-4xl font-semibold">--:--</p>
                     <div className="flex flex-col items-center w-full py-4">
                         <div
                             ref={scrollRef}
@@ -120,7 +120,7 @@ export default function Scoreboard({ player, percentage, width }) {
                             </button> */}
                         </div>
                     </div>
-                    <p className="text-4xl font-semibold">10:00</p>
+                    <p className="text-4xl font-semibold">--:--</p>
                     <button
                         onClick={() =>
                             setShowModal({

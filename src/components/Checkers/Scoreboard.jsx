@@ -1,41 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { calculateWinningChances } from "../../services/checkers/utils";
 import { piecesEaten } from "../../services/checkers/pawn";
 import { createPortal } from "react-dom";
 import Settings from "./Modal/Settings";
 
-export default function Scoreboard({ squares, player, ratings }) {
+export default function Scoreboard({ player, ratings, percentage, width }) {
     const scrollRef = useRef(null);
     const scrollHeightRef = useRef(0);
     const [showModal, setShowModal] = useState(false);
-    const [percentage, setPercentage] = useState({
-        white: 50,
-        black: 50,
-    });
-
-    useEffect(() => {
-        const whitePawns = squares.filter(
-            (square) => square.img === "/w-pawn.png"
-        ).length;
-        const whiteQueen = squares.filter(
-            (square) => square.img === "/wQ-pawn.png"
-        ).length;
-        const blackPawns = squares.filter(
-            (square) => square.img === "/b-pawn.png"
-        ).length;
-        const blackQueen = squares.filter(
-            (square) => square.img === "/bQ-pawn.png"
-        ).length;
-
-        const [whiteChance, blackChance] = calculateWinningChances(
-            whitePawns,
-            whiteQueen,
-            blackPawns,
-            blackQueen
-        );
-
-        setPercentage({ white: whiteChance, black: blackChance });
-    }, [squares]);
 
     useEffect(() => {
         const scrollDiv = scrollRef.current;
@@ -48,7 +19,7 @@ export default function Scoreboard({ squares, player, ratings }) {
                     scrollDiv.scrollHeight - scrollDiv.clientHeight;
             }
         }
-    }); // Aucune dépendance
+    });
 
     return (
         <>
@@ -146,53 +117,55 @@ export default function Scoreboard({ squares, player, ratings }) {
                         </svg>
                     </button>
                 </div>
-                <div
-                    className={`flex justify-between p-3 bg-amber-950 rounded border-2 select-none ${
-                        player === 2
-                            ? "border-yellow-500 shadow-md shadow-yellow-700"
-                            : "border-black shadow"
-                    }`}
-                >
-                    <div className="flex flex-col justify-around items-center">
-                        <div className="flex">
-                            <div className="relative">
-                                <img
-                                    src="/img/w-pawn.png"
-                                    alt=""
-                                    className="w-8 h-8 m-1"
-                                />
-                                <p className="w-5 h-5 bg-black rounded-full absolute bottom-0 right-0 shadow">
-                                    <span className="text-white flex justify-center items-center h-full text-sm font-semibold shadow">
-                                        {piecesEaten.blackPawn}
-                                    </span>
-                                </p>
+                {width >= 1200 && (
+                    <div
+                        className={`flex justify-between p-3 bg-amber-950 rounded border-2 select-none ${
+                            player === 2
+                                ? "border-yellow-500 shadow-md shadow-yellow-700"
+                                : "border-black shadow"
+                        }`}
+                    >
+                        <div className="flex flex-col justify-around items-center">
+                            <div className="flex">
+                                <div className="relative">
+                                    <img
+                                        src="/img/w-pawn.png"
+                                        alt=""
+                                        className="w-8 h-8 m-1"
+                                    />
+                                    <p className="w-5 h-5 bg-black rounded-full absolute bottom-0 right-0 shadow">
+                                        <span className="text-white flex justify-center items-center h-full text-sm font-semibold shadow">
+                                            {piecesEaten.blackPawn}
+                                        </span>
+                                    </p>
+                                </div>
+                                <div className="relative">
+                                    <img
+                                        src="/img/wQ-pawn.png"
+                                        alt=""
+                                        className="w-8 h-8 m-1"
+                                    />
+                                    <p className="w-5 h-5 bg-black rounded-full absolute bottom-0 right-0 shadow">
+                                        <span className="text-white flex justify-center items-center h-full text-sm font-semibold shadow">
+                                            {piecesEaten.blackQueen}
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
-                            <div className="relative">
-                                <img
-                                    src="/img/wQ-pawn.png"
-                                    alt=""
-                                    className="w-8 h-8 m-1"
-                                />
-                                <p className="w-5 h-5 bg-black rounded-full absolute bottom-0 right-0 shadow">
-                                    <span className="text-white flex justify-center items-center h-full text-sm font-semibold shadow">
-                                        {piecesEaten.blackQueen}
-                                    </span>
-                                </p>
-                            </div>
+                            <p className="text-lg font-semibold ml-1">
+                                {percentage.black}%
+                            </p>
                         </div>
-                        <p className="text-lg font-semibold ml-1">
-                            {percentage.black}%
-                        </p>
+                        <div className="flex flex-col items-center">
+                            <p className="text-lg font-semibold">Player 2</p>
+                            <img
+                                src="/img/b-pawn.png"
+                                alt=""
+                                className="w-12 h-12 mt-1"
+                            />
+                        </div>
                     </div>
-                    <div className="flex flex-col items-center">
-                        <p className="text-lg font-semibold">Player 2</p>
-                        <img
-                            src="/img/b-pawn.png"
-                            alt=""
-                            className="w-12 h-12 mt-1"
-                        />
-                    </div>
-                </div>
+                )}
             </div>
             {showModal &&
                 createPortal(

@@ -1,10 +1,6 @@
 import { useEffect } from "react";
 
-export default function Home({ setDisplay }) {
-    useEffect(() => {
-        setDisplay(true);
-    }, [setDisplay]);
-
+export default function Home() {
     useEffect(() => {
         document.title = "PlaySkroma";
     }, []);

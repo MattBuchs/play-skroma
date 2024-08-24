@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { nanoid } from "nanoid";
 import Board from "../../components/Checkers/Board.jsx";
 import { MovePawn } from "../../services/checkers/pawn.js";
 import { placeHoldersPawn } from "../../services/checkers/handlePawns.js";
@@ -8,14 +11,13 @@ import {
     clearTemporaryMoves,
     checkWinner,
 } from "../../services/checkers/utils.js";
-import { useSelector } from "react-redux";
+import { hideNavbar } from "../../features/navbar.js";
 import { initializeSocket } from "../../services/socket.js";
-import { useParams } from "react-router-dom";
-import { nanoid } from "nanoid";
 const socket = initializeSocket("checkers");
 
-function CheckersGame({ setDisplay }) {
+function CheckersGame() {
     const params = useParams();
+    const dispatch = useDispatch();
     const [pawnChoose, setPawnChoose] = useState(null);
     const [resultObligation, setResultObligation] = useState(false);
     const [player, setPlayer] = useState(1);
@@ -29,8 +31,8 @@ function CheckersGame({ setDisplay }) {
     }, [userId]);
 
     useEffect(() => {
-        setDisplay(false);
-    }, [setDisplay]);
+        dispatch(hideNavbar());
+    }, [dispatch]);
 
     useEffect(() => {
         document.title = "PlaySkroma | Checkers";
@@ -152,7 +154,7 @@ function CheckersGame({ setDisplay }) {
     };
 
     return (
-        <div className="flex justify-center items-center py-4">
+        <div className="flex justify-center items-center h-full px-2">
             <Board squares={squares} onClick={handleClick} player={player} />
         </div>
     );

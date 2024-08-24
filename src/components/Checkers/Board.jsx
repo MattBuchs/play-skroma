@@ -1,6 +1,6 @@
 import Square from "./Square";
 import Scoreboard from "./Scoreboard";
-import { piecesEaten, ratings } from "../../services/checkers/pawn";
+import { piecesEaten } from "../../services/checkers/pawn";
 import { useEffect, useState } from "react";
 import { calculateWinningChances } from "../../services/checkers/utils";
 
@@ -32,24 +32,24 @@ export default function Board({ squares, onClick, player }) {
     }, []);
 
     useEffect(() => {
-        const whitePawns = squares.filter(
-            (square) => square.img === "/w-pawn.png"
-        ).length;
-        const whiteQueen = squares.filter(
-            (square) => square.img === "/wQ-pawn.png"
-        ).length;
-        const blackPawns = squares.filter(
-            (square) => square.img === "/b-pawn.png"
-        ).length;
-        const blackQueen = squares.filter(
-            (square) => square.img === "/bQ-pawn.png"
-        ).length;
+        const pawns = [
+            { link: "/w-pawn.png", filter: null },
+            { link: "/wQ-pawn.png", filter: null },
+            { link: "/b-pawn.png", filter: null },
+            { link: "/bQ-pawn.png", filter: null },
+        ];
+
+        pawns.forEach((pawn) => {
+            pawn.filter = squares.filter(
+                (square) => square.img === pawn.link
+            ).length;
+        });
 
         const [whiteChance, blackChance] = calculateWinningChances(
-            whitePawns,
-            whiteQueen,
-            blackPawns,
-            blackQueen
+            pawns[0].filter,
+            pawns[1].filter,
+            pawns[2].filter,
+            pawns[3].filter
         );
 
         setPercentage({ white: whiteChance, black: blackChance });
@@ -114,7 +114,6 @@ export default function Board({ squares, onClick, player }) {
             <section className="w-full mt-2 lg:h-[800px] lg:w-64 lg:ml-1 lg:mt-0 rounded">
                 <Scoreboard
                     player={player}
-                    ratings={ratings}
                     percentage={percentage}
                     width={width}
                 />

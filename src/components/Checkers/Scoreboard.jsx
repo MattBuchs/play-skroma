@@ -1,13 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import { piecesEaten } from "../../services/checkers/pawn";
+import { piecesEaten, ratings } from "../../services/checkers/pawn";
 import { createPortal } from "react-dom";
 import Settings from "./Modal/Settings";
+import GiveUp from "./Modal/GiveUp";
 
-export default function Scoreboard({ player, ratings, percentage, width }) {
+export default function Scoreboard({ player, percentage, width }) {
     const scrollRef = useRef(null);
     const scrollHeightRef = useRef(0);
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState({
+        showSettingsModal: false,
+        showGiveUpModal: false,
+        showEqualityModal: false,
+    });
 
+    // Mettre la scroll bar tout en bas pour l'affichage des coups
     useEffect(() => {
         const scrollDiv = scrollRef.current;
         if (scrollDiv) {
@@ -73,7 +79,7 @@ export default function Scoreboard({ player, ratings, percentage, width }) {
                 </div>
                 <div className="bg-amber-950 h-full my-2 rounded p-4 flex flex-col items-center justify-between relative">
                     <p className="text-4xl font-semibold">10:00</p>
-                    <div className="flex flex-col items-center w-full">
+                    <div className="flex flex-col items-center w-full py-4">
                         <div
                             ref={scrollRef}
                             className="bg-black/30 h-72 w-full flex flex-col items-center overflow-auto rounded"
@@ -90,18 +96,31 @@ export default function Scoreboard({ player, ratings, percentage, width }) {
                                 </p>
                             ))}
                         </div>
-                        <div className="flex flex-col items-center w-full mt-8">
-                            <button className="bg-blue-600 py-1 rounded w-3/4 m-1 hover:bg-blue-700">
+                        <div className="flex flex-col items-center w-full mt-6">
+                            <button
+                                onClick={() =>
+                                    setShowModal({
+                                        ...showModal,
+                                        showGiveUpModal: true,
+                                    })
+                                }
+                                className="bg-blue-600 py-1 rounded w-3/4 h-10 text-lg m-1 hover:bg-blue-700"
+                            >
                                 Give up
                             </button>
-                            <button className="bg-blue-600 py-1 rounded w-3/4 m-1 hover:bg-blue-700">
+                            {/* <button className="bg-blue-600 py-1 rounded w-3/4 m-1 hover:bg-blue-700">
                                 Request a Draw ?
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                     <p className="text-4xl font-semibold">10:00</p>
                     <button
-                        onClick={() => setShowModal(true)}
+                        onClick={() =>
+                            setShowModal({
+                                ...showModal,
+                                showSettingsModal: true,
+                            })
+                        }
                         className="absolute bottom-2 right-2 "
                     >
                         <svg
@@ -167,9 +186,29 @@ export default function Scoreboard({ player, ratings, percentage, width }) {
                     </div>
                 )}
             </div>
-            {showModal &&
+            {showModal.showSettingsModal &&
                 createPortal(
-                    <Settings closeModal={() => setShowModal(false)} />,
+                    <Settings
+                        closeModal={() =>
+                            setShowModal({
+                                ...showModal,
+                                showSettingsModal: false,
+                            })
+                        }
+                    />,
+                    document.body
+                )}
+            {showModal.showGiveUpModal &&
+                createPortal(
+                    <GiveUp
+                        closeModal={() =>
+                            setShowModal({
+                                ...showModal,
+                                showGiveUpModal: false,
+                            })
+                        }
+                        player={player}
+                    />,
                     document.body
                 )}
         </>

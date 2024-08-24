@@ -118,8 +118,10 @@ export const clearTemporaryMoves = (squares, piece) => {
     });
 };
 
-export const checkWinner = (squares, player, img, setWinner, setPlayer) => {
+export const checkWinner = (squares, player, img, setPlayer) => {
+    let winner = false;
     let queen;
+
     if (img === "/w-pawn.png") queen = "/wQ-pawn.png";
     if (img === "/b-pawn.png") queen = "/bQ-pawn.png";
 
@@ -128,13 +130,17 @@ export const checkWinner = (squares, player, img, setWinner, setPlayer) => {
     );
 
     if (!checkPawns) {
-        setWinner(true);
-        return alert(`Le Joueur ${player} à gagné !`);
+        winner = true;
     }
 
     const whoNext = player === "1" ? 2 : 1;
+    setPlayer(Number(whoNext));
 
-    return setPlayer(Number(whoNext));
+    return winner;
+};
+
+export const displayWinner = (player) => {
+    alert(`Le joueur ${player} à gagné`);
 };
 
 export const calculateWinningChances = (

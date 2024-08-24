@@ -3,16 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { nanoid } from "nanoid";
 import Board from "../../components/Checkers/Board.jsx";
-import { MovePawn } from "../../services/checkers/pawn.js";
+import { MovePawn, ratings } from "../../services/checkers/pawn.js";
 import { placeHoldersPawn } from "../../services/checkers/handlePawns.js";
 import { placeHoldersQueen } from "../../services/checkers/handleQueenPawn.js";
 import {
     initializeSquares,
     clearTemporaryMoves,
     checkWinner,
+    displayWinner,
 } from "../../services/checkers/utils.js";
 import { hideNavbar } from "../../features/navbar.js";
 import { initializeSocket } from "../../services/socket.js";
+import { addWinner, removeWinner } from "../../features/checkersGame.js";
 const socket = initializeSocket("checkers");
 
 function CheckersGame() {
@@ -21,9 +23,10 @@ function CheckersGame() {
     const [pawnChoose, setPawnChoose] = useState(null);
     const [resultObligation, setResultObligation] = useState(false);
     const [player, setPlayer] = useState(1);
-    const [winner, setWinner] = useState(false);
     const [squares, setSquares] = useState(initializeSquares);
-    const { gameID, onlineMode } = useSelector((state) => state.checkersGame);
+    const { gameID, onlineMode, isWinner } = useSelector(
+        (state) => state.checkersGame
+    );
     const userId = localStorage.getItem("userId") || nanoid();
 
     useEffect(() => {
@@ -32,10 +35,13 @@ function CheckersGame() {
 
     useEffect(() => {
         dispatch(hideNavbar());
+        dispatch(removeWinner());
     }, [dispatch]);
 
     useEffect(() => {
         document.title = "PlaySkroma | Checkers";
+
+        if (ratings.length > 0) ratings.splice(0, ratings.length);
     }, []);
 
     useEffect(() => {
@@ -65,9 +71,11 @@ function CheckersGame() {
     }, [gameID, userId, onlineMode, params.gameID]);
 
     const handleClick = (i) => {
+        console.log(isWinner);
+
         const newSquares = squares.slice();
 
-        if (newSquares[i].img && !winner) {
+        if (newSquares[i].img && !isWinner) {
             const isPlayerOne = player === 1;
             const pawnType = isPlayerOne ? "/w-pawn.png" : "/b-pawn.png";
             const tempPawnType = isPlayerOne ? "/wp-pawn.svg" : "/bp-pawn.svg";
@@ -131,13 +139,17 @@ function CheckersGame() {
                         if (square.img === pawnOpacity) square.img = null;
                     });
 
-                    checkWinner(
+                    const winner = checkWinner(
                         newSquares,
                         player.toString(),
                         opponentPawnType,
-                        setWinner,
                         setPlayer
                     );
+
+                    if (winner) {
+                        dispatch(addWinner());
+                        displayWinner(player.toString());
+                    }
 
                     let gameId = gameID;
                     if (!gameID) gameId = params.gameID;

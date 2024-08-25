@@ -71,8 +71,6 @@ function CheckersGame() {
     }, [gameID, userId, onlineMode, params.gameID]);
 
     const handleClick = (i) => {
-        console.log(isWinner);
-
         const newSquares = squares.slice();
 
         if (newSquares[i].img && !isWinner) {
@@ -83,9 +81,6 @@ function CheckersGame() {
             const opponentPawnType = isPlayerOne
                 ? "/b-pawn.png"
                 : "/w-pawn.png";
-            const pawnOpacity = isPlayerOne
-                ? "/b-pawn-opacity.png"
-                : "/w-pawn-opacity.png";
 
             if (newSquares[i].selected) {
                 clearTemporaryMoves(newSquares, tempPawnType);
@@ -135,10 +130,6 @@ function CheckersGame() {
                 );
 
                 if (!isReplay) {
-                    newSquares.map((square) => {
-                        if (square.img === pawnOpacity) square.img = null;
-                    });
-
                     const winner = checkWinner(
                         newSquares,
                         player.toString(),

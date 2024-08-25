@@ -1,3 +1,5 @@
+import { checkEnemyWithPawn } from "./handlePawns";
+
 export let checkEnnemyPiece = [];
 
 const directionsQueen = [
@@ -7,7 +9,7 @@ const directionsQueen = [
     { x: 1, y: 1 }, // Bas droit
 ];
 
-const findLongestJumpChainQueen = (
+export const findLongestJumpChainQueen = (
     newSquares,
     queen,
     opponentPiece,
@@ -122,40 +124,6 @@ const findLongestJumpChainQueen = (
     }
 };
 
-export const checkEnemyWithQueen = (newSquares, queen, player, isOpponent) => {
-    let opponentPiece = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
-    let opponentQueenPiece = player === 1 ? "/bQ-pawn.png" : "/wQ-pawn.png";
-
-    if (isOpponent) {
-        opponentPiece = player === 1 ? "/w-pawn.png" : "/b-pawn.png";
-        opponentQueenPiece = player === 1 ? "/wQ-pawn.png" : "/bQ-pawn.png";
-    }
-
-    const pastPlaces = [];
-    const chains = [];
-    findLongestJumpChainQueen(
-        newSquares,
-        queen,
-        opponentPiece,
-        opponentQueenPiece,
-        pastPlaces,
-        [],
-        chains,
-        null
-    );
-
-    const longestChainLength = chains.reduce(
-        (maxLength, chain) => Math.max(maxLength, chain.length),
-        0
-    );
-
-    const longestChains = chains.filter(
-        (chain) => chain.length === longestChainLength
-    );
-
-    return longestChains;
-};
-
 export const placeHoldersQueen = (
     newSquares,
     i,
@@ -175,7 +143,13 @@ export const placeHoldersQueen = (
     }
 
     // First check for enemies with an empty space behind them
-    checkEnnemyPiece = checkEnemyWithQueen(newSquares, i, player, isOpponent);
+    checkEnnemyPiece = checkEnemyWithPawn(
+        newSquares,
+        i,
+        player,
+        isOpponent,
+        true
+    );
 
     if (checkEnnemyPiece.length > 0) {
         checkEnnemyPiece.forEach((chain) => {

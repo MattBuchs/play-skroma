@@ -2,8 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { ratingsRatings } from "../../../features/checkersSettings";
 
 export default function Settings({ closeModal }) {
-    console.log(closeModal);
-
     const dispatch = useDispatch();
     const { ratingsShown } = useSelector((state) => state.checkersSettings);
 

@@ -1,4 +1,4 @@
-import { checkEnemyWithQueen, placeHoldersQueen } from "./handleQueenPawn.js";
+import { placeHoldersQueen } from "./handleQueenPawn.js";
 import { checkEnemyWithPawn, placeHoldersPawn } from "./handlePawns.js";
 import { getDiagonalBetween } from "./utils.js";
 import { checkEnnemyPiece } from "./handleQueenPawn.js";
@@ -232,6 +232,10 @@ export const MovePawn = (
         newSquares[i].img = "/bQ-pawn.png";
     }
 
+    newSquares.map((square) => {
+        if (square.img === pawnOpacity) square.img = null;
+    });
+
     newSquares.map((el) => {
         if (
             el.img === opponentPiece &&
@@ -245,7 +249,7 @@ export const MovePawn = (
 
         if (
             el.img === queenPiece &&
-            checkEnemyWithQueen(newSquares, el.id, player, true).length > 0
+            checkEnemyWithPawn(newSquares, el.id, player, true, true).length > 0
         ) {
             el.color = colorBlueHighlight;
             setResultObligation(true);

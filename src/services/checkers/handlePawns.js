@@ -1,3 +1,4 @@
+import { findLongestJumpChainQueen } from "./handleQueenPawn";
 import { handlePawns } from "./pawn";
 
 const directionsPawn = [
@@ -71,7 +72,13 @@ const findLongestJumpChain = (
     }
 };
 
-export const checkEnemyWithPawn = (newSquares, pawn, player, isOpponent) => {
+export const checkEnemyWithPawn = (
+    newSquares,
+    pawn,
+    player,
+    isOpponent,
+    isQueen
+) => {
     let opponentPiece = player === 1 ? "/b-pawn.png" : "/w-pawn.png";
     let opponentQueenPiece = player === 1 ? "/bQ-pawn.png" : "/wQ-pawn.png";
 
@@ -82,15 +89,28 @@ export const checkEnemyWithPawn = (newSquares, pawn, player, isOpponent) => {
 
     const pastPlaces = [];
     const chains = [];
-    findLongestJumpChain(
-        newSquares,
-        pawn,
-        opponentPiece,
-        opponentQueenPiece,
-        pastPlaces,
-        [],
-        chains
-    );
+    if (isQueen) {
+        findLongestJumpChainQueen(
+            newSquares,
+            pawn,
+            opponentPiece,
+            opponentQueenPiece,
+            pastPlaces,
+            [],
+            chains,
+            null
+        );
+    } else {
+        findLongestJumpChain(
+            newSquares,
+            pawn,
+            opponentPiece,
+            opponentQueenPiece,
+            pastPlaces,
+            [],
+            chains
+        );
+    }
 
     const longestChainLength = chains.reduce(
         (maxLength, chain) => Math.max(maxLength, chain.length),

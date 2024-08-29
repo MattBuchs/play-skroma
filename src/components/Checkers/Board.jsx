@@ -69,7 +69,7 @@ export default function Board({ squares, onClick, player }) {
                         <div className="flex">
                             <div className="relative">
                                 <img
-                                    src="/img/w-pawn.png"
+                                    src="/img/checkers/w-pawn.png"
                                     alt=""
                                     className="w-8 h-8 m-1"
                                 />
@@ -81,7 +81,7 @@ export default function Board({ squares, onClick, player }) {
                             </div>
                             <div className="relative">
                                 <img
-                                    src="/img/wQ-pawn.png"
+                                    src="/img/checkers/wQ-pawn.png"
                                     alt=""
                                     className="w-8 h-8 m-1"
                                 />
@@ -101,7 +101,7 @@ export default function Board({ squares, onClick, player }) {
                             Player 2
                         </p>
                         <img
-                            src="/img/b-pawn.png"
+                            src="/img/checkers/b-pawn.png"
                             alt=""
                             className="w-12 h-12 mt-1"
                         />

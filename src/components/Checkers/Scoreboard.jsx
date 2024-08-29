@@ -47,7 +47,7 @@ export default function Scoreboard({ player, percentage, width }) {
                     <div className="flex flex-col items-center">
                         <p className="text-lg font-semibold">Player 1</p>
                         <img
-                            src="/img/w-pawn.png"
+                            src="/img/checkers/w-pawn.png"
                             alt=""
                             className="w-12 h-12 mt-1"
                         />
@@ -56,7 +56,7 @@ export default function Scoreboard({ player, percentage, width }) {
                         <div className="flex">
                             <div className="relative">
                                 <img
-                                    src="/img/b-pawn.png"
+                                    src="/img/checkers/b-pawn.png"
                                     alt=""
                                     className="w-8 h-8 m-1"
                                 />
@@ -68,7 +68,7 @@ export default function Scoreboard({ player, percentage, width }) {
                             </div>
                             <div className="relative">
                                 <img
-                                    src="/img/bQ-pawn.png"
+                                    src="/img/checkers/bQ-pawn.png"
                                     alt=""
                                     className="w-8 h-8 m-1"
                                 />
@@ -155,7 +155,7 @@ export default function Scoreboard({ player, percentage, width }) {
                             <div className="flex">
                                 <div className="relative">
                                     <img
-                                        src="/img/w-pawn.png"
+                                        src="/img/checkers/w-pawn.png"
                                         alt=""
                                         className="w-8 h-8 m-1"
                                     />
@@ -167,7 +167,7 @@ export default function Scoreboard({ player, percentage, width }) {
                                 </div>
                                 <div className="relative">
                                     <img
-                                        src="/img/wQ-pawn.png"
+                                        src="/img/checkers/wQ-pawn.png"
                                         alt=""
                                         className="w-8 h-8 m-1"
                                     />
@@ -185,7 +185,7 @@ export default function Scoreboard({ player, percentage, width }) {
                         <div className="flex flex-col items-center">
                             <p className="text-lg font-semibold">Player 2</p>
                             <img
-                                src="/img/b-pawn.png"
+                                src="/img/checkers/b-pawn.png"
                                 alt=""
                                 className="w-12 h-12 mt-1"
                             />

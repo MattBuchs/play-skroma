@@ -56,6 +56,18 @@ export default function Nav() {
                                     Checkers
                                 </NavLink>
                             </li>
+                            <li className="ml-4">
+                                <NavLink
+                                    to={"/morpion-home"}
+                                    className={({ isActive }) =>
+                                        isActive
+                                            ? "underline underline-offset-4"
+                                            : ""
+                                    }
+                                >
+                                    Morpion
+                                </NavLink>
+                            </li>
                         </ul>
                     </nav>
                 </div>

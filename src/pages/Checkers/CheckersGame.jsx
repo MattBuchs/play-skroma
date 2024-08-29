@@ -160,7 +160,7 @@ function CheckersGame() {
     };
 
     return (
-        <div className="flex justify-center items-center h-full px-2">
+        <div className="flex justify-center items-center h-full px-2 py-10">
             <Board squares={squares} onClick={handleClick} player={player} />
         </div>
     );

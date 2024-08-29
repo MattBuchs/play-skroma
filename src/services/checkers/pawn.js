@@ -236,6 +236,67 @@ export const MovePawn = (
         if (square.img === pawnOpacity) square.img = null;
     });
 
+    // let test = [];
+    // newSquares.map((el) => {
+    //     if (
+    //         el.img === opponentPiece &&
+    //         checkEnemyWithPawn(newSquares, el.id, player, true, false).length >
+    //             0
+    //     ) {
+    //         const wow = checkEnemyWithPawn(
+    //             newSquares,
+    //             el.id,
+    //             player,
+    //             true,
+    //             false
+    //         );
+
+    //         if (wow.length > 0) {
+    //             test.push(wow);
+    //         }
+
+    //         el.color = colorBlueHighlight;
+    //         setResultObligation(true);
+    //         placeHoldersPawn(newSquares, el.id, player, true, false, true);
+    //     }
+
+    //     if (
+    //         el.img === queenPiece &&
+    //         checkEnemyWithPawn(newSquares, el.id, player, true, true).length > 0
+    //     ) {
+    //         const wow = checkEnemyWithPawn(
+    //             newSquares,
+    //             el.id,
+    //             player,
+    //             true,
+    //             true
+    //         );
+
+    //         if (wow.length > 0) {
+    //             test.push(wow);
+    //         }
+
+    //         el.color = colorBlueHighlight;
+    //         setResultObligation(true);
+    //         placeHoldersQueen(newSquares, el.id, player, true, false, true);
+    //     }
+    // });
+
+    // let longestChainLength;
+    // test.forEach((el) => {
+    //     longestChainLength = el.reduce(
+    //         (maxLength, chain) => Math.max(maxLength, chain.length),
+    //         0
+    //     );
+    // });
+
+    // let longestChains;
+    // test.forEach((el) => {
+    //     longestChains = el.filter(
+    //         (chain) => chain.length === longestChainLength
+    //     );
+    // });
+
     newSquares.map((el) => {
         if (
             el.img === opponentPiece &&

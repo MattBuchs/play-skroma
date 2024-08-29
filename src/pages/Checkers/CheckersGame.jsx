@@ -14,7 +14,10 @@ import {
 } from "../../services/checkers/utils.js";
 import { hideNavbar } from "../../features/navbar.js";
 import { initializeSocket } from "../../services/socket.js";
-import { addWinner, removeWinner } from "../../features/checkersGame.js";
+import {
+    addWinner,
+    removeWinner,
+} from "../../features/checkers/checkersGame.js";
 const socket = initializeSocket("checkers");
 
 function CheckersGame() {

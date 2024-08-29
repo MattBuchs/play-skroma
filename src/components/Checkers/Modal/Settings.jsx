@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { ratingsRatings } from "../../../features/checkersSettings";
+import { ratingsRatings } from "../../../features/checkers/checkersSettings";
 
 export default function Settings({ closeModal }) {
     const dispatch = useDispatch();

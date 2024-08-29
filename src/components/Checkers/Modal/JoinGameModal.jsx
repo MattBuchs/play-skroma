@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getSocket } from "../../../services/socket";
-import { setGameID } from "../../../features/checkersGame";
+import { setGameID } from "../../../features/checkers/checkersGame";
 import { nanoid } from "nanoid";
 
 const userId = localStorage.getItem("userId") || nanoid();

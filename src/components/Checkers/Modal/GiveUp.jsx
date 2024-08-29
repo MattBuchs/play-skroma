@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { displayWinner } from "../../../services/checkers/utils";
-import { addWinner } from "../../../features/checkersGame";
+import { addWinner } from "../../../features/checkers/checkersGame";
 
 export default function GiveUp({ closeModal, player }) {
     const dispatch = useDispatch();

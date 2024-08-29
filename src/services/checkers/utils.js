@@ -1,50 +1,3 @@
-// export const initializeSquares = () => {
-//     let dialingId = 0;
-//     return Array(100)
-//         .fill(null)
-//         .map((_, index) => {
-//             const row = Math.floor(index / 10);
-//             const col = index % 10;
-//             const isBlackSquare = (row + col) % 2 !== 0;
-//             const color = isBlackSquare ? "bg-[#86421d]" : "bg-[#d2a973]";
-
-//             if (isBlackSquare) {
-//                 dialingId++;
-//                 if (row < 4)
-//                     return {
-//                         id: index,
-//                         img: "/b-pawn.png",
-//                         color,
-//                         selected: false,
-//                         dialingId,
-//                     };
-//                 else if (row > 5)
-//                     return {
-//                         id: index,
-//                         img: "/w-pawn.png",
-//                         color,
-//                         selected: false,
-//                         dialingId,
-//                     };
-//                 else
-//                     return {
-//                         id: index,
-//                         img: null,
-//                         color,
-//                         selected: false,
-//                         dialingId,
-//                     };
-//             }
-//             return {
-//                 id: index,
-//                 img: null,
-//                 color,
-//                 selected: false,
-//                 dialingId: null,
-//             };
-//         });
-// };
-
 export const initializeSquares = () => {
     let dialingId = 0;
     return Array(100)
@@ -57,29 +10,7 @@ export const initializeSquares = () => {
 
             if (isBlackSquare) {
                 dialingId++;
-
-                if (index === 7 || index === 98)
-                    return {
-                        id: index,
-                        img: "/w-pawn.png",
-                        color,
-                        selected: false,
-                        dialingId,
-                    };
-                else if (index === 3)
-                    return {
-                        id: index,
-                        img: "/wQ-pawn.png",
-                        color,
-                        selected: false,
-                        dialingId,
-                    };
-                else if (
-                    index === 21 ||
-                    index === 41 ||
-                    index === 18 ||
-                    index === 76
-                )
+                if (row < 4)
                     return {
                         id: index,
                         img: "/b-pawn.png",
@@ -87,24 +18,23 @@ export const initializeSquares = () => {
                         selected: false,
                         dialingId,
                     };
-                // } else if (index === 41) {
-                //     if (index === 23 || index === 27)
-                //         return {
-                //             id: index,
-                //             img: "/b-pawn.png",
-                //             color,
-                //             selected: false,
-                //             dialingId,
+                else if (row > 5)
+                    return {
+                        id: index,
+                        img: "/w-pawn.png",
+                        color,
+                        selected: false,
+                        dialingId,
+                    };
+                else
+                    return {
+                        id: index,
+                        img: null,
+                        color,
+                        selected: false,
+                        dialingId,
+                    };
             }
-            // } else
-            //     return {
-            //         id: index,
-            //         img: null,
-            //         color,
-            //         selected: false,
-            //         dialingId,
-            //     };
-
             return {
                 id: index,
                 img: null,
@@ -114,6 +44,77 @@ export const initializeSquares = () => {
             };
         });
 };
+
+// export const initializeSquares = () => {
+//     let dialingId = 0;
+//     return Array(100)
+//         .fill(null)
+//         .map((_, index) => {
+//             const row = Math.floor(index / 10);
+//             const col = index % 10;
+//             const isBlackSquare = (row + col) % 2 !== 0;
+//             const color = isBlackSquare ? "bg-[#86421d]" : "bg-[#d2a973]";
+
+//             if (isBlackSquare) {
+//                 dialingId++;
+
+//                 if (index === 7 || index === 98)
+//                     return {
+//                         id: index,
+//                         img: "/wQ-pawn.png",
+//                         color,
+//                         selected: false,
+//                         dialingId,
+//                     };
+//                 else if (index === 3)
+//                     return {
+//                         id: index,
+//                         img: "/wQ-pawn.png",
+//                         color,
+//                         selected: false,
+//                         dialingId,
+//                     };
+//                 else if (
+//                     index === 18 ||
+//                     index === 21 ||
+//                     index === 38 ||
+//                     index === 41 ||
+//                     index === 76
+//                 )
+//                     return {
+//                         id: index,
+//                         img: "/b-pawn.png",
+//                         color,
+//                         selected: false,
+//                         dialingId,
+//                     };
+//                 // } else if (index === 41) {
+//                 //     if (index === 23 || index === 27)
+//                 //         return {
+//                 //             id: index,
+//                 //             img: "/b-pawn.png",
+//                 //             color,
+//                 //             selected: false,
+//                 //             dialingId,
+//             }
+//             // } else
+//             //     return {
+//             //         id: index,
+//             //         img: null,
+//             //         color,
+//             //         selected: false,
+//             //         dialingId,
+//             //     };
+
+//             return {
+//                 id: index,
+//                 img: null,
+//                 color,
+//                 selected: false,
+//                 dialingId: null,
+//             };
+//         });
+// };
 
 export const clearTemporaryMoves = (squares, piece) => {
     squares.forEach((square) => {

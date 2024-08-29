@@ -57,9 +57,6 @@ export const findLongestJumpChainQueen = (
             if (newSquares[nextIndex].img === null) {
                 if (canJump) {
                     if (!pastPlaces.find((el) => el === nextIndex)) {
-                        // const previousX = x + direction.x * (step - 1);
-                        // const previousY = y + direction.y * (step - 1);
-                        // const previousIndex = previousY * boardSize + previousX;
                         const othersIndex = [];
                         let step2 = step++;
 

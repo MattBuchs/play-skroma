@@ -236,13 +236,13 @@ export default function MorpionGame() {
                 <div>
                     <button
                         onClick={() => resetGame(false)}
-                        className="bg-blue-600 text-white px-4 py-1 rounded mr-2"
+                        className="bg-blue-600 text-white px-4 py-1 rounded mr-2 hover:bg-blue-800"
                     >
                         Reset
                     </button>
                     <button
                         onClick={() => setModal(true)}
-                        className="bg-blue-600 text-white px-4 py-1 rounded"
+                        className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-800"
                     >
                         Add nicknames
                     </button>

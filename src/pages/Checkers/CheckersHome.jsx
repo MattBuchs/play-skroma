@@ -21,10 +21,10 @@ export default function CheckersHome() {
     const handleCreateGame = () => {
         setShowCreateGameModal(true);
 
-        socket.emit("createGame", { userId }, (gameId) => {
-            dispatch(setGameID(gameId));
-            navigate(`/checkers/${gameId}`);
-        });
+        // socket.emit("createGame", { userId }, (gameId) => {
+        //     dispatch(setGameID(gameId));
+        //     navigate(`/checkers/${gameId}`);
+        // });
     };
 
     const handleLocalMode = () => {

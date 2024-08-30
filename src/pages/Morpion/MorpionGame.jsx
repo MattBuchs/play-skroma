@@ -144,8 +144,6 @@ export default function MorpionGame() {
 
     useEffect(() => {
         if (winner) {
-            console.log(winner);
-
             if (winner === "cross")
                 setScore({ ...score, player1: (score.player1 += 1) });
             if (winner === "circle")
@@ -158,7 +156,6 @@ export default function MorpionGame() {
 
     return (
         <div className="h-full">
-            {console.log(score.player1)}
             <h2 className="text-center text-4xl font-bold mt-6">Morpion</h2>
             <p className="text-center text-3xl mt-4">
                 <span className="text-red-700 font-bold">{score.player1}</span>{" "}
@@ -166,7 +163,7 @@ export default function MorpionGame() {
                 <span className="text-blue-700 font-bold">{score.player2}</span>
             </p>
 
-            <div className="flex flex-col justify-center items-center mt-28">
+            <div className="flex flex-col justify-center items-center my-8 sm:my-20">
                 {winner === "" && (
                     <p className="mb-2 text-xl">
                         Player{" "}

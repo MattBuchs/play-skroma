@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { displayNavbar } from "../features/navbar";
+import { useState } from "react";
 
 export default function Nav() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [showMenu, setShowMenu] = useState(false);
     const { isDisplayNav } = useSelector((state) => state.navbar);
 
     const handleNavigation = () => {
@@ -17,58 +19,74 @@ export default function Nav() {
             {isDisplayNav && (
                 <div className="flex justify-between items-center text-white h-[74px] px-2 w-full border-b shadow bg-indigo-900">
                     <div className="flex items-center">
-                        <img
-                            src="/img/logo.png"
-                            alt="Logo"
-                            className="w-16 h-16"
-                        />
                         <h1
-                            className="text-xl mb-1 ml-2"
+                            className="text-xl mb-1 ml-1 flex items-center"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <Link to={"/"}>PlaySkroma</Link>
+                            <img
+                                src="/img/logo.png"
+                                alt="Logo"
+                                className="w-16 h-16 mr-1"
+                            />
+                            <Link to={"/"} className="hidden xxs:block">
+                                PlaySkroma
+                            </Link>
                         </h1>
                     </div>
 
                     <nav onClick={(e) => e.stopPropagation()} className="mr-4">
                         <ul className="flex text-lg">
                             <li>
-                                <NavLink
-                                    to={"/"}
-                                    className={({ isActive }) =>
-                                        isActive
-                                            ? "underline underline-offset-4"
-                                            : ""
-                                    }
+                                <button
+                                    onClick={() => setShowMenu(!showMenu)}
+                                    className="mr-1 fill-white flex items-center"
                                 >
-                                    Home
-                                </NavLink>
+                                    Games
+                                    <img
+                                        src="/img/chevron.svg"
+                                        alt="menu"
+                                        className="w-4 h-4 ml-1 mt-0.5"
+                                    />
+                                </button>
                             </li>
-                            <li className="ml-4">
-                                <NavLink
-                                    to={"/checkers-home"}
-                                    className={({ isActive }) =>
-                                        isActive
-                                            ? "underline underline-offset-4"
-                                            : ""
-                                    }
-                                >
-                                    Checkers
-                                </NavLink>
-                            </li>
-                            <li className="ml-4">
-                                <NavLink
-                                    to={"/morpion-home"}
-                                    className={({ isActive }) =>
-                                        isActive
-                                            ? "underline underline-offset-4"
-                                            : ""
-                                    }
-                                >
-                                    Morpion
-                                </NavLink>
-                            </li>
+                            <li className="ml-4">Profile</li>
                         </ul>
+                        {showMenu && (
+                            <div className="absolute right-20 top-[52px] z-10 bg-stone-300 text-black rounded-lg border border-black/20 shadow w-36">
+                                <ul className="py-1.5 text-xl">
+                                    <li
+                                        onClick={() => setShowMenu(false)}
+                                        className="w-full hover:bg-stone-400 text-end pb-1"
+                                    >
+                                        <NavLink
+                                            to={"/checkers-home"}
+                                            className={({ isActive }) =>
+                                                isActive
+                                                    ? "underline underline-offset-4 px-4"
+                                                    : "px-4"
+                                            }
+                                        >
+                                            Checkers
+                                        </NavLink>
+                                    </li>
+                                    <li
+                                        onClick={() => setShowMenu(false)}
+                                        className="w-full hover:bg-stone-400 text-end pb-1"
+                                    >
+                                        <NavLink
+                                            to={"/morpion-home"}
+                                            className={({ isActive }) =>
+                                                isActive
+                                                    ? "underline underline-offset-4 px-4"
+                                                    : "px-4"
+                                            }
+                                        >
+                                            Morpion
+                                        </NavLink>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
                     </nav>
                 </div>
             )}

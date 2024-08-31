@@ -33,25 +33,30 @@ export default function CheckersHome() {
     };
 
     return (
-        <section className="flex flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[52%]">
-            <button
-                onClick={handleLocalMode}
-                className="bg-blue-700 text-white px-28 py-5 text-2xl rounded shadow hover:bg-blue-800"
-            >
-                Local game
-            </button>
-            <button
-                onClick={handleCreateGame}
-                className="bg-blue-700 text-white px-28 py-5 text-2xl rounded shadow mt-1 hover:bg-blue-800"
-            >
-                Create game
-            </button>
-            <button
-                onClick={() => setShowJoinGameModal(true)}
-                className="bg-blue-700 text-white px-28 py-5 text-2xl rounded shadow mt-1 hover:bg-blue-800"
-            >
-                Join game
-            </button>
+        <section className="flex flex-col h-full">
+            <h2 className="text-center text-4xl font-bold mt-8 underline">
+                Checkers
+            </h2>
+            <div className="flex flex-col justify-center items-center h-full px-4 mb-20">
+                <button
+                    onClick={handleLocalMode}
+                    className="bg-blue-700 text-white w-full xxs:w-[350px] py-5 text-2xl rounded shadow hover:bg-blue-800"
+                >
+                    Local game
+                </button>
+                <button
+                    onClick={handleCreateGame}
+                    className="bg-blue-700 text-white w-full xxs:w-[350px] py-5 text-2xl rounded shadow mt-1 hover:bg-blue-800"
+                >
+                    Create game
+                </button>
+                <button
+                    onClick={() => setShowJoinGameModal(true)}
+                    className="bg-blue-700 text-white w-full xxs:w-[350px] py-5 text-2xl rounded shadow mt-1 hover:bg-blue-800"
+                >
+                    Join game
+                </button>
+            </div>
             {showCreateGameModal &&
                 createPortal(
                     <CreateGameModal

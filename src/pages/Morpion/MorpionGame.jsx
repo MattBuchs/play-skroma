@@ -156,7 +156,9 @@ export default function MorpionGame() {
 
     return (
         <div className="h-full">
-            <h2 className="text-center text-4xl font-bold mt-6">Morpion</h2>
+            <h2 className="text-center text-4xl font-bold mt-6 underline">
+                Tic-Tac-Toe
+            </h2>
             <p className="text-center text-3xl mt-4">
                 <span className="text-red-700 font-bold">{score.player1}</span>{" "}
                 /{" "}

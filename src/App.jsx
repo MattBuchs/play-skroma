@@ -2,11 +2,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import Login from "./pages/Auth/Login";
 import CheckersGame from "./pages/Checkers/CheckersGame";
 import CheckersHome from "./pages/Checkers/CheckersHome";
 import MorpionHome from "./pages/Morpion/MorpionHome";
 import MorpionGame from "./pages/Morpion/MorpionGame";
 import NotFound from "./pages/NotFound";
+import Signup from "./pages/Auth/Signup";
 
 function App() {
     return (
@@ -15,6 +17,10 @@ function App() {
             <main className="bg-gray-200">
                 <Routes>
                     <Route path="/" element={<Home />} />
+
+                    {/* Auth */}
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
 
                     {/* Checkers */}
                     <Route path="/checkers-home" element={<CheckersHome />} />

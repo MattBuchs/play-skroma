@@ -36,7 +36,7 @@ export default function Nav() {
 
                     <nav onClick={(e) => e.stopPropagation()} className="mr-4">
                         <ul className="flex text-lg">
-                            <li>
+                            <li className="hover:underline">
                                 <button
                                     onClick={() => setShowMenu(!showMenu)}
                                     className="mr-1 fill-white flex items-center"
@@ -49,7 +49,19 @@ export default function Nav() {
                                     />
                                 </button>
                             </li>
-                            <li className="ml-4">Profile</li>
+                            <li className="ml-4">
+                                {" "}
+                                <NavLink
+                                    to={"/login"}
+                                    className={({ isActive }) =>
+                                        isActive
+                                            ? "underline underline-offset-4"
+                                            : ""
+                                    }
+                                >
+                                    Login
+                                </NavLink>
+                            </li>
                         </ul>
                         {showMenu && (
                             <div className="absolute right-20 top-[52px] z-10 bg-stone-300 text-black rounded-lg border border-black/20 shadow w-36">

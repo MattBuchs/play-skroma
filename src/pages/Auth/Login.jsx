@@ -2,10 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getToken } from "../../features/user";
 import { useDispatch } from "react-redux";
+import eye from "/img/eye.svg";
+import eyeSlash from "/img/eye-slash.svg";
 
 export default function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [showPassword, setShowPassword] = useState(false);
     const [infos, setInfos] = useState({
         email: "",
         password: "",
@@ -134,7 +137,7 @@ export default function Login() {
                                     </small>
                                 )}
                             </div>
-                            <div>
+                            <div className="relative">
                                 <label
                                     htmlFor="password"
                                     className="block mb-1 text-sm font-medium text-gray-900"
@@ -142,13 +145,25 @@ export default function Login() {
                                     Password
                                 </label>
                                 <input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     name="password"
                                     id="password"
                                     placeholder="••••••••"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 pr-10"
                                     required=""
                                     onChange={handleInfos}
+                                />
+                                <img
+                                    src={showPassword ? eyeSlash : eye}
+                                    onClick={() =>
+                                        setShowPassword(!showPassword)
+                                    }
+                                    alt={
+                                        showPassword
+                                            ? "Hide password"
+                                            : "Show password"
+                                    }
+                                    className="w-6 h-6 absolute top-9 right-2 cursor-pointer"
                                 />
                                 {errorMessage.password && (
                                     <small className="text-red-600 block ml-0.5">

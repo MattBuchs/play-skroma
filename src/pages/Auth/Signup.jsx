@@ -1,9 +1,17 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import passwordSecurityMiddleware from "../../validation/passwordSchema";
+import eye from "/img/eye.svg";
+import eyeSlash from "/img/eye-slash.svg";
+import check from "/img/check.svg";
+import cross from "/img/cross.svg";
 
 export default function Signup() {
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState({
+        password: false,
+        confirmPassword: false,
+    });
     const [infos, setInfos] = useState({
         username: "",
         email: "",
@@ -197,7 +205,7 @@ export default function Signup() {
                                     type="text"
                                     name="username"
                                     id="username"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     placeholder="name123"
                                     required=""
                                     onChange={handleInfos}
@@ -219,7 +227,7 @@ export default function Signup() {
                                     type="email"
                                     name="email"
                                     id="email"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                     placeholder="name@company.com"
                                     required=""
                                     onChange={handleInfos}
@@ -238,13 +246,32 @@ export default function Signup() {
                                     Password
                                 </label>
                                 <input
-                                    type="password"
+                                    type={
+                                        showPassword.password
+                                            ? "text"
+                                            : "password"
+                                    }
                                     name="password"
                                     id="password"
                                     placeholder="••••••••"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 pr-10"
                                     required=""
                                     onChange={handleInfos}
+                                />
+                                <img
+                                    src={showPassword.password ? eyeSlash : eye}
+                                    onClick={() =>
+                                        setShowPassword({
+                                            ...showPassword,
+                                            password: !showPassword.password,
+                                        })
+                                    }
+                                    alt={
+                                        showPassword.password
+                                            ? "Hide password"
+                                            : "Show password"
+                                    }
+                                    className="w-6 h-6 absolute top-9 right-2 cursor-pointer"
                                 />
                                 {errorMessage.password && (
                                     <small className="text-red-600 block mr-0.5 absolute right-0">
@@ -262,8 +289,8 @@ export default function Signup() {
                                         <img
                                             src={
                                                 !conditionsPass.characters
-                                                    ? "/img/check.svg"
-                                                    : "/img/cross.svg"
+                                                    ? check
+                                                    : cross
                                             }
                                             className="w-4 h-4 mt-0.5 mr-1"
                                             alt=""
@@ -280,8 +307,8 @@ export default function Signup() {
                                         <img
                                             src={
                                                 !conditionsPass.lowercase
-                                                    ? "/img/check.svg"
-                                                    : "/img/cross.svg"
+                                                    ? check
+                                                    : cross
                                             }
                                             className="w-4 h-4 mt-0.5 mr-1"
                                             alt=""
@@ -298,8 +325,8 @@ export default function Signup() {
                                         <img
                                             src={
                                                 !conditionsPass.uppercase
-                                                    ? "/img/check.svg"
-                                                    : "/img/cross.svg"
+                                                    ? check
+                                                    : cross
                                             }
                                             className="w-4 h-4 mt-0.5 mr-1"
                                             alt=""
@@ -316,8 +343,8 @@ export default function Signup() {
                                         <img
                                             src={
                                                 !conditionsPass.digit
-                                                    ? "/img/check.svg"
-                                                    : "/img/cross.svg"
+                                                    ? check
+                                                    : cross
                                             }
                                             className="w-4 h-4 mt-0.5 mr-1"
                                             alt=""
@@ -334,8 +361,8 @@ export default function Signup() {
                                         <img
                                             src={
                                                 !conditionsPass.specialCharacter
-                                                    ? "/img/check.svg"
-                                                    : "/img/cross.svg"
+                                                    ? check
+                                                    : cross
                                             }
                                             className="w-4 h-4 mt-0.5 mr-1"
                                             alt=""
@@ -352,13 +379,37 @@ export default function Signup() {
                                     Confirm password
                                 </label>
                                 <input
-                                    type="password"
+                                    type={
+                                        showPassword.confirmPassword
+                                            ? "text"
+                                            : "password"
+                                    }
                                     name="confirmPassword"
                                     id="confirm-password"
                                     placeholder="••••••••"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 pr-10"
                                     required=""
                                     onChange={handleInfos}
+                                />
+                                <img
+                                    src={
+                                        showPassword.confirmPassword
+                                            ? eyeSlash
+                                            : eye
+                                    }
+                                    onClick={() =>
+                                        setShowPassword({
+                                            ...showPassword,
+                                            confirmPassword:
+                                                !showPassword.confirmPassword,
+                                        })
+                                    }
+                                    alt={
+                                        showPassword.confirmPassword
+                                            ? "Hide password"
+                                            : "Show password"
+                                    }
+                                    className="w-6 h-6 absolute top-9 right-2 cursor-pointer"
                                 />
                                 {errorMessage.confirmPassword && (
                                     <small className="text-red-600 block mr-0.5 absolute right-0">

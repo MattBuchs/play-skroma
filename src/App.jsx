@@ -9,8 +9,16 @@ import MorpionHome from "./pages/Morpion/MorpionHome";
 import MorpionGame from "./pages/Morpion/MorpionGame";
 import NotFound from "./pages/NotFound";
 import Signup from "./pages/Auth/Signup";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { checkToken } from "./features/user";
 
 function App() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(checkToken());
+    }, [dispatch]);
+
     return (
         <BrowserRouter>
             <Nav />

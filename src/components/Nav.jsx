@@ -1,28 +1,47 @@
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { displayNavbar } from "../features/navbar";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Nav() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
     const { isDisplayNav } = useSelector((state) => state.navbar);
+    const { isAuthenticated } = useSelector((state) => state.user);
+    const menuRef = useRef(null);
 
     const handleNavigation = () => {
         dispatch(displayNavbar());
         navigate("/");
     };
 
+    const toggleMenu = (e) => {
+        e.stopPropagation(); // Empêche la propagation pour éviter que `handleClickOutside` se déclenche
+        setShowMenu((prev) => !prev);
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setTimeout(() => {
+                    setShowMenu(false);
+                }, 150); // Délai court pour permettre au clic de se propager correctement
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     return (
         <header className="bg-gray-200 select-none">
             {isDisplayNav && (
                 <div className="flex justify-between items-center text-white h-[74px] px-2 w-full border-b shadow bg-indigo-900">
                     <div className="flex items-center">
-                        <h1
-                            className="text-xl mb-1 ml-1 flex items-center"
-                            onClick={(e) => e.stopPropagation()}
-                        >
+                        <h1 className="text-xl mb-1 ml-1 flex items-center">
                             <img
                                 src="/img/logo.png"
                                 alt="Logo"
@@ -34,11 +53,11 @@ export default function Nav() {
                         </h1>
                     </div>
 
-                    <nav onClick={(e) => e.stopPropagation()} className="mr-4">
+                    <nav className="mr-4">
                         <ul className="flex text-lg">
                             <li className="hover:underline">
                                 <button
-                                    onClick={() => setShowMenu(!showMenu)}
+                                    onClick={toggleMenu}
                                     className="mr-1 fill-white flex items-center"
                                 >
                                     Games
@@ -50,25 +69,27 @@ export default function Nav() {
                                 </button>
                             </li>
                             <li className="ml-4">
-                                {" "}
                                 <NavLink
-                                    to={"/login"}
+                                    to={isAuthenticated ? "/profile" : "/login"}
                                     className={({ isActive }) =>
                                         isActive
                                             ? "underline underline-offset-4"
                                             : ""
                                     }
                                 >
-                                    Login
+                                    {isAuthenticated ? "Profile" : "Login"}
                                 </NavLink>
                             </li>
                         </ul>
                         {showMenu && (
-                            <div className="absolute right-20 top-[52px] z-10 bg-stone-300 text-black rounded-lg border border-black/20 shadow w-36">
-                                <ul className="py-1.5 text-xl">
+                            <div
+                                ref={menuRef}
+                                className="absolute right-12 top-[65px] z-10 bg-stone-50 text-black rounded-lg border border-gray-400/60 shadow w-40 after:w-0 after:h-0 after:border-l-[12px] after:border-l-transparent after:border-b-[18px] after:border-b-stone-50 after:border-r-[12px] after:border-r-transparent after:absolute after:-top-4 after:left-1/2 after:-translate-x-1/2"
+                            >
+                                <ul className="py-2 text-lg">
                                     <li
                                         onClick={() => setShowMenu(false)}
-                                        className="w-full hover:bg-stone-400 text-end pb-1"
+                                        className="w-full hover:bg-stone-200 text-center pb-1"
                                     >
                                         <NavLink
                                             to={"/checkers-home"}
@@ -83,7 +104,7 @@ export default function Nav() {
                                     </li>
                                     <li
                                         onClick={() => setShowMenu(false)}
-                                        className="w-full hover:bg-stone-400 text-end pb-1"
+                                        className="w-full hover:bg-stone-200 text-center pb-1"
                                     >
                                         <NavLink
                                             to={"/morpion-home"}

@@ -9,7 +9,7 @@ export default function Home() {
     return (
         <div className="pt-14 px-10 h-full w-full flex flex-col items-center">
             <h2 className="text-3xl text-center mt-6 font-bold">
-                Welcome to my constantly evolving online gaming site!
+                Welcome to my online gaming site!
             </h2>
 
             <section className="mt-10 w-full md:w-[700px] divide-y-8">
@@ -21,9 +21,19 @@ export default function Home() {
                 </p>
                 <p>
                     You may encounter bugs while playing. If you do, please
-                    don&apos;t hesitate to contact me by email or through the
-                    contact page. Your feedback is invaluable in improving the
-                    gaming experience.
+                    don&apos;t hesitate to contact me by{" "}
+                    <a
+                        className="underline text-blue-700"
+                        href="mailto:games@play-skroma.fr"
+                    >
+                        email
+                    </a>{" "}
+                    or through the{" "}
+                    <Link className="underline text-blue-700" to="/contact">
+                        contact
+                    </Link>{" "}
+                    page. Your feedback is invaluable in improving the gaming
+                    experience.
                 </p>
                 <p>
                     Additionally, if you have suggestions for new games, I would

@@ -3,6 +3,7 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Login from "./pages/Auth/Login";
+import Profile from "./pages/Profile/Profile";
 import CheckersGame from "./pages/Checkers/CheckersGame";
 import CheckersHome from "./pages/Checkers/CheckersHome";
 import MorpionHome from "./pages/Morpion/MorpionHome";
@@ -29,6 +30,9 @@ function App() {
                     {/* Auth */}
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
+
+                    {/* Profile */}
+                    <Route path="/profile" element={<Profile />} />
 
                     {/* Checkers */}
                     <Route path="/checkers-home" element={<CheckersHome />} />

@@ -1,3 +1,0 @@
-# play-skroma
-
-Site which is evolving with more and more games like Checkers, Tic-Tac-Toe...

@@ -17,7 +17,7 @@ export default function Nav() {
     };
 
     const toggleMenu = (e) => {
-        e.stopPropagation(); // Empêche la propagation pour éviter que `handleClickOutside` se déclenche
+        e.stopPropagation();
         setShowMenu((prev) => !prev);
     };
 
@@ -26,7 +26,7 @@ export default function Nav() {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
                 setTimeout(() => {
                     setShowMenu(false);
-                }, 150); // Délai court pour permettre au clic de se propager correctement
+                }, 150);
             }
         };
 
@@ -95,8 +95,8 @@ export default function Nav() {
                                             to={"/checkers-home"}
                                             className={({ isActive }) =>
                                                 isActive
-                                                    ? "underline underline-offset-4 px-4"
-                                                    : "px-4"
+                                                    ? "underline underline-offset-4 px-4 w-full block"
+                                                    : "px-4 w-full block"
                                             }
                                         >
                                             Checkers
@@ -110,8 +110,8 @@ export default function Nav() {
                                             to={"/morpion-home"}
                                             className={({ isActive }) =>
                                                 isActive
-                                                    ? "underline underline-offset-4 px-4"
-                                                    : "px-4"
+                                                    ? "underline underline-offset-4 px-4 w-full block"
+                                                    : "px-4 w-full block"
                                             }
                                         >
                                             Morpion

@@ -48,12 +48,11 @@ export default function Login() {
             setErrorMessage(errors);
         } else {
             fetch(`${import.meta.env.VITE_API_URL}/signin`, {
-                method: "POST", // Utilisez "POST" en majuscules pour être cohérent avec les conventions HTTP
+                method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(infos),
             })
                 .then((res) => {
-                    // Vérifiez si la réponse du serveur est correcte (statut HTTP 2xx)
                     if (!res.ok) {
                         return res.json().then((data) => {
                             throw new Error(data.error || "Unknown error");

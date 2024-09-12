@@ -3,14 +3,14 @@ import { nanoid } from "nanoid";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
-import { getSocket } from "../../services/socket";
+// import { getSocket } from "../../services/socket";
 import CreateGameModal from "../../components/Checkers/Modal/CreateGameModal";
 import JoinGameModal from "../../components/Checkers/Modal/JoinGameModal";
 import { setGameID, setOnlineMode } from "../../features/checkers/checkersGame";
 
-const userId = localStorage.getItem("userId") || nanoid();
-localStorage.setItem("userId", userId);
-const socket = getSocket();
+// const userId = localStorage.getItem("userId") || nanoid();
+// localStorage.setItem("userId", userId);
+// const socket = getSocket();
 
 export default function CheckersHome() {
     const dispatch = useDispatch();

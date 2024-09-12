@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getSocket } from "../../../services/socket";
+// import { getSocket } from "../../../services/socket";
 import { setGameID } from "../../../features/checkers/checkersGame";
 import { nanoid } from "nanoid";
 
 const userId = localStorage.getItem("userId") || nanoid();
 localStorage.setItem("userId", userId);
-const socket = getSocket();
+// const socket = getSocket();
 
 export default function JoinGameModal({ closeModal }) {
     const [value, setValue] = useState("");
@@ -15,14 +15,14 @@ export default function JoinGameModal({ closeModal }) {
     const dispatch = useDispatch();
 
     const handleJoinGame = (gameId) => {
-        socket.emit("joinGame", { gameId, userId }, (response) => {
-            if (response.success) {
-                dispatch(setGameID(gameId));
-                navigate(`/checkers/${gameId}`);
-            } else {
-                alert(response.message);
-            }
-        });
+        // socket.emit("joinGame", { gameId, userId }, (response) => {
+        //     if (response.success) {
+        //         dispatch(setGameID(gameId));
+        //         navigate(`/checkers/${gameId}`);
+        //     } else {
+        //         alert(response.message);
+        //     }
+        // });
     };
 
     return (

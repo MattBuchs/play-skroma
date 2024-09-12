@@ -13,12 +13,12 @@ import {
     displayWinner,
 } from "../../services/checkers/utils.js";
 import { hideNavbar } from "../../features/navbar.js";
-import { initializeSocket } from "../../services/socket.js";
+// import { initializeSocket } from "../../services/socket.js";
 import {
     addWinner,
     removeWinner,
 } from "../../features/checkers/checkersGame.js";
-const socket = initializeSocket("checkers");
+// const socket = initializeSocket("checkers");
 
 function CheckersGame() {
     const params = useParams();
@@ -47,31 +47,31 @@ function CheckersGame() {
         if (ratings.length > 0) ratings.splice(0, ratings.length);
     }, []);
 
-    useEffect(() => {
-        if (onlineMode) {
-            socket.on("connect", () => {
-                console.log("Connected to server");
-            });
+    // useEffect(() => {
+    //     if (onlineMode) {
+    //         socket.on("connect", () => {
+    //             console.log("Connected to server");
+    //         });
 
-            const gameId = gameID || params.gameID;
-            socket.emit("joinGame", { gameId, userId }, (response) => {
-                console.log(gameId, userId);
-                if (response.success) {
-                    setSquares(response.squares);
-                } else {
-                    alert(response.message);
-                }
-            });
+    //         const gameId = gameID || params.gameID;
+    //         socket.emit("joinGame", { gameId, userId }, (response) => {
+    //             console.log(gameId, userId);
+    //             if (response.success) {
+    //                 setSquares(response.squares);
+    //             } else {
+    //                 alert(response.message);
+    //             }
+    //         });
 
-            socket.on("move", (data) => {
-                setSquares(data.squares);
-            });
+    //         socket.on("move", (data) => {
+    //             setSquares(data.squares);
+    //         });
 
-            return () => {
-                socket.disconnect();
-            };
-        }
-    }, [gameID, userId, onlineMode, params.gameID]);
+    //         return () => {
+    //             socket.disconnect();
+    //         };
+    //     }
+    // }, [gameID, userId, onlineMode, params.gameID]);
 
     const handleClick = (i) => {
         const newSquares = squares.slice();
@@ -148,10 +148,10 @@ function CheckersGame() {
                     let gameId = gameID;
                     if (!gameID) gameId = params.gameID;
 
-                    socket.emit("move", {
-                        gameId,
-                        squares: newSquares,
-                    });
+                    // socket.emit("move", {
+                    //     gameId,
+                    //     squares: newSquares,
+                    // });
                 }
             }
         }
